@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useMe } from "~/hooks/useMe";
 import { toast } from "~/hooks/use-toast";
 import { Spinner } from "~/components/ui/spinner";
+import { goBetterAuthClient } from "~/lib/gba-client";
 
 function formatDate(date?: string) {
   if (!date) return "-";
@@ -45,12 +46,21 @@ export default function DashboardPage() {
     return <Navigate to="/auth/sign-in" replace />;
   }
 
-  function signOut() {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    toast({ title: "Signed out", description: "You have been signed out" });
-    navigate("/auth/sign-in");
-  }
+  const signOut = async () => {
+    try {
+      await goBetterAuthClient.signOut({});
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      toast({ title: "Signed out", description: "You have been signed out" });
+      navigate("/auth/sign-in");
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Sign out failed",
+        description: error?.message || "An unknown error occurred",
+      });
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">

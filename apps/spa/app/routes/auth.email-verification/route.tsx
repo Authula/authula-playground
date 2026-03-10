@@ -6,7 +6,7 @@ import { toast } from "~/hooks/use-toast";
 import { goBetterAuthClient } from "~/lib/gba-client";
 
 export default function EmailVerificationPage() {
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     try {
