@@ -1,6 +1,6 @@
 module github.com/GoBetterAuth/go-better-auth-playground
 
-go 1.26.0
+go 1.26.1
 
 require (
 	github.com/GoBetterAuth/go-better-auth/v2 v2.12.0
