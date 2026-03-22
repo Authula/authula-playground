@@ -1,5 +1,5 @@
 # Variables
-BINARY_NAME=go-better-auth-playground
+BINARY_NAME=authula-playground
 BUILD_DIR=build
 SRC_DIR=.
 

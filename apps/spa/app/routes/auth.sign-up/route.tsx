@@ -4,13 +4,13 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useState } from "react";
+import type { JWTTokensResponse } from "authula/plugins";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Field, FieldLabel, FieldError } from "~/components/ui/field";
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
-import type { JWTTokensResponse } from "go-better-auth/plugins";
+import { authulaClient } from "~/lib/authula-client";
 import SocialProviderButtons from "~/components/shared/SocialProviderButtons";
 
 const signUpSchema = z
@@ -53,7 +53,7 @@ export default function SignUpPage() {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       const response =
-        await goBetterAuthClient.emailPassword.signUp<JWTTokensResponse>({
+        await authulaClient.emailPassword.signUp<JWTTokensResponse>({
           name: data.name,
           email: data.email,
           password: data.password,

@@ -1,10 +1,10 @@
 {
-  "name": "go-better-auth-playground",
+  "name": "authula-playground",
   "build": {
     "context": ".",
     "dockerfile": "Dockerfile"
   },
-  "workspaceFolder": "/workspaces/go-better-auth-playground",
+  "workspaceFolder": "/workspaces/authula-playground",
   "forwardPorts": [3000, 8080],
   "customizations": {
     "vscode": {

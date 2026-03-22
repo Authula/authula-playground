@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { useState } from "react";
 
@@ -9,8 +9,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Field, FieldLabel, FieldError } from "~/components/ui/field";
 import { toast } from "~/hooks/use-toast";
-import ENV_CONFIG from "~/constants/env-config";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 const changePasswordSchema = z
   .object({
@@ -52,7 +51,7 @@ export default function ChangePasswordPage() {
         throw new Error("Invalid or missing token");
       }
 
-      await goBetterAuthClient.emailPassword.changePassword({
+      await authulaClient.emailPassword.changePassword({
         token,
         password: data.newPassword,
       });

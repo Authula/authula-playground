@@ -1,6 +1,6 @@
 # Next.js
 
-This Next.js app is designed to work with the [GoBetterAuth](https://go-better-auth.vercel.app) backend service to show you how to integrate authentication seamlessly in your app.
+This Next.js app is designed to work with the [Authula](https://authula.vercel.app) backend service to show you how to integrate authentication seamlessly in your app.
 
 ---
 

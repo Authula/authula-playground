@@ -6,7 +6,7 @@ import (
 
 	"github.com/uptrace/bun"
 
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/types"
+	"github.com/Authula/authula-playground/plugins/logger/types"
 )
 
 // BunLoggerRepository implements Repository

@@ -12,9 +12,9 @@ const primaryFont = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "GoBetterAuth Playground",
+  title: "Authula Playground",
   description:
-    "A playground built for GoBetterAuth to test out the various authentication features.",
+    "A playground built for Authula to test out the various authentication features.",
 };
 
 export default function RootLayout({

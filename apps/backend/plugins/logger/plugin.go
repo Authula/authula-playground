@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/repositories"
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/services"
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/types"
-	"github.com/GoBetterAuth/go-better-auth/v2/migrations"
-	"github.com/GoBetterAuth/go-better-auth/v2/models"
-	emailpasswordpluginconstants "github.com/GoBetterAuth/go-better-auth/v2/plugins/email-password/constants"
+	"github.com/Authula/authula-playground/plugins/logger/repositories"
+	"github.com/Authula/authula-playground/plugins/logger/services"
+	"github.com/Authula/authula-playground/plugins/logger/types"
+	"github.com/Authula/authula/migrations"
+	"github.com/Authula/authula/models"
+	emailpasswordpluginconstants "github.com/Authula/authula/plugins/email-password/constants"
 )
 
 type LoggerPlugin struct {

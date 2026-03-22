@@ -3,8 +3,9 @@ package logger
 import (
 	"net/http"
 
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/services"
-	"github.com/GoBetterAuth/go-better-auth/v2/models"
+	"github.com/Authula/authula/models"
+
+	"github.com/Authula/authula-playground/plugins/logger/services"
 )
 
 const rateLimitKey = "plugin:logger:count"

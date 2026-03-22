@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { GetMeResponse } from "go-better-auth";
+import { GetMeResponse } from "authula";
 
 import SignOutButton from "@/components/SignOutButton";
 import {
@@ -12,12 +12,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { goBetterAuthClientServer } from "@/lib/gba-client-server";
+import { authulaClientServer } from "@/lib/authula-client-server";
+
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   let data: GetMeResponse | null = null;
   try {
-    data = await goBetterAuthClientServer.getMe();
+    data = await authulaClientServer.getMe();
   } catch (error) {
     console.error(error);
   }

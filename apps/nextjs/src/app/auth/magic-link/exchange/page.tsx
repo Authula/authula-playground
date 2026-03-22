@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { goBetterAuthClientBrowser } from "@/lib/gba-client-browser";
+import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 export default function MagicLinkExchangePage() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function MagicLinkExchangePage() {
 
     const exchangeToken = async () => {
       try {
-        await goBetterAuthClientBrowser.magicLink.exchange({
+        await authulaClientBrowser.magicLink.exchange({
           token: token,
         });
         setStatus("success");

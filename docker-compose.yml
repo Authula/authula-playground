@@ -13,7 +13,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
-      - gobetterauth_playground_network
+      - authula_playground_network
 
   redis:
     image: redis:8.6
@@ -28,7 +28,7 @@ services:
     environment:
       - REDIS_ARGS=--requirepass ${REDIS_PASSWORD}
     networks:
-      - gobetterauth_playground_network
+      - authula_playground_network
 
   redpanda:
     image: redpandadata/redpanda:v25.3.5
@@ -69,7 +69,7 @@ services:
       - 19092:19092
       - 19644:9644
     networks:
-      - gobetterauth_playground_network
+      - authula_playground_network
 
   console:
     image: redpandadata/console:v3.5.0
@@ -80,10 +80,10 @@ services:
     volumes:
       - ./docker/redpanda/config:/tmp/config/
     networks:
-      - gobetterauth_playground_network
+      - authula_playground_network
     depends_on:
       - redpanda
 
 networks:
-  gobetterauth_playground_network:
+  authula_playground_network:
     driver: bridge

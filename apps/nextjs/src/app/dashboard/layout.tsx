@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
-import { GetMeResponse } from "go-better-auth";
+import { GetMeResponse } from "authula";
 
-import { goBetterAuthClientBrowser } from "@/lib/gba-client-browser";
+import { authulaClientBrowser } from "@/lib/authula-client-browser";
 import { Spinner } from "@/components/ui/spinner";
 
 export default function DashboardLayout({
@@ -17,7 +17,7 @@ export default function DashboardLayout({
     queryKey: ["me"],
     queryFn: async () => {
       try {
-        const response = await goBetterAuthClientBrowser.getMe<GetMeResponse>();
+        const response = await authulaClientBrowser.getMe<GetMeResponse>();
         return response;
       } catch (error) {
         console.error(error);

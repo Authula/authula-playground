@@ -1,12 +1,12 @@
 # Go Better Auth Playground
 
-This repository showcases a full-stack authentication system using Go for the backend and Next.js for the frontend. It is designed as a playground to explore secure authentication flows, including user registration, login, and protected routes powered by GoBetterAuth.
+This repository showcases a full-stack authentication system using Go for the backend and Next.js for the frontend. It is designed as a playground to explore secure authentication flows, including user registration, login, and protected routes powered by Authula.
 
 ## Tech Stack
 
 - Frontend: Next.js
 - Backend: Go (Golang), Echo (for this example)
-- Library: [GoBetterAuth](https://github.com/GoBetterAuth/go-better-auth)
+- Library: [Authula](https://github.com/Authula/authula)
 
 ## Getting Started
 
@@ -27,8 +27,8 @@ This repository showcases a full-stack authentication system using Go for the ba
    - Update environment variables in `frontend/.env.local`.
    - Start the frontend: `pnpm dev`
 
-This repository will be updated as GoBetterAuth evolves, with additional examples demonstrating integration in various scenarios.
+This repository will be updated as Authula evolves, with additional examples demonstrating integration in various scenarios.
 
-For comprehensive documentation and usage instructions, visit the [GoBetterAuth Docs](https://go-better-auth.vercel.app/docs).
+For comprehensive documentation and usage instructions, visit the [Authula Docs](https://authula.vercel.app/docs).
 
 ---

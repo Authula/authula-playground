@@ -4,14 +4,14 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { useState } from "react";
-import type { JWTTokensResponse } from "go-better-auth/plugins";
+import type { JWTTokensResponse } from "authula/plugins";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Field, FieldLabel, FieldError } from "~/components/ui/field";
 import { toast } from "~/hooks/use-toast";
 import type { Route } from "../+types/_index";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 import SocialProviderButtons from "~/components/shared/SocialProviderButtons";
 import MagicLinkSignInButton from "~/components/shared/MagicLinkSignInButton";
 
@@ -39,7 +39,7 @@ export default function SignInPage({}: Route.ComponentProps) {
   const onSubmit = async (data: SignInFormData) => {
     try {
       const response =
-        await goBetterAuthClient.emailPassword.signIn<JWTTokensResponse>(data);
+        await authulaClient.emailPassword.signIn<JWTTokensResponse>(data);
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
 

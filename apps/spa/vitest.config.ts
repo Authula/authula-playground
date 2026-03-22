@@ -9,6 +9,7 @@ export default defineConfig({
     include: ["app/**/*.{test,spec}.{ts,tsx}"],
   },
   resolve: {
+    tsconfigPaths: true,
     alias: { "~": path.resolve(__dirname, "./app") },
   },
 });

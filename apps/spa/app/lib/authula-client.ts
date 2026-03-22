@@ -1,4 +1,4 @@
-import { createClient } from "go-better-auth";
+import { createClient } from "authula";
 import {
   EmailPasswordPlugin,
   OAuth2Plugin,
@@ -6,18 +6,18 @@ import {
   JWTPlugin,
   BearerPlugin,
   MagicLinkPlugin,
-} from "go-better-auth/plugins";
+} from "authula/plugins";
 
 import ENV_CONFIG from "~/constants/env-config";
 
-export const goBetterAuthClient = createClient({
-  url: ENV_CONFIG.gobetterauth.url,
+export const authulaClient = createClient({
+  url: ENV_CONFIG.authula.url,
   plugins: [
     new EmailPasswordPlugin(),
     new OAuth2Plugin(),
     new CSRFPlugin({
-      cookieName: "gobetterauth_csrf_token",
-      headerName: "x-gobetterauth-csrf-token",
+      cookieName: "authula_csrf_token",
+      headerName: "x-authula-csrf-token",
     }),
     new JWTPlugin(),
     new BearerPlugin(),

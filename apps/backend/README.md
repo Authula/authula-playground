@@ -1,6 +1,6 @@
 # Backend
 
-This repository contains the backend for the GoBetterAuth Playground, a demo project showcasing authentication features for GoBetterAuth.
+This repository contains the backend for the Authula Playground, a demo project showcasing authentication features for Authula.
 
 ---
 
@@ -16,8 +16,8 @@ This repository contains the backend for the GoBetterAuth Playground, a demo pro
 ### Installation
 
 ```bash
-$ git clone https://github.com/GoBetterAuth/go-better-auth-playground.git
-$ cd go-better-auth-playground/backend
+$ git clone https://github.com/Authula/authula-playground.git
+$ cd authula-playground/backend
 $ go mod download && go mod tidy
 ```
 

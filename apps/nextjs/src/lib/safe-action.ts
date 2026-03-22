@@ -3,10 +3,10 @@ import {
   DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action";
 import * as z from "zod";
-import { GetMeResponse } from "go-better-auth";
+import { GetMeResponse } from "authula";
 
 import { ActionError } from "@/models";
-import { goBetterAuthClientServer } from "./gba-client-server";
+import { authulaClientServer } from "./authula-client-server";
 
 export const actionClient = createSafeActionClient({
   defineMetadataSchema() {
@@ -30,7 +30,7 @@ export const actionClient = createSafeActionClient({
 // will also be used for this one.
 export const authActionClient = actionClient.use(async ({ next }) => {
   try {
-    const data = await goBetterAuthClientServer.getMe<GetMeResponse>();
+    const data = await authulaClientServer.getMe<GetMeResponse>();
     if (!data.user) {
       throw new Error("Unauthorized");
     }

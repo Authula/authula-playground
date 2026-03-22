@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/types"
+	"github.com/Authula/authula-playground/plugins/logger/types"
 )
 
 // UseCase defines the interface for logger operations

@@ -1,6 +1,6 @@
 const ENV_CONFIG = {
-  gobetterauth: {
-    url: import.meta.env.VITE_GO_BETTER_AUTH_URL as string,
+  authula: {
+    url: import.meta.env.VITE_AUTHULA_URL as string,
   },
   baseUrl: import.meta.env.VITE_BASE_URL as string,
 } as const;

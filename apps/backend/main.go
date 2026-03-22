@@ -10,35 +10,35 @@ import (
 
 	"github.com/joho/godotenv"
 
-	gobetterauth "github.com/GoBetterAuth/go-better-auth/v2"
-	gobetterauthconfig "github.com/GoBetterAuth/go-better-auth/v2/config"
-	gobetterauthenv "github.com/GoBetterAuth/go-better-auth/v2/env"
-	gobetterauthevents "github.com/GoBetterAuth/go-better-auth/v2/events"
-	gobetterauthmodels "github.com/GoBetterAuth/go-better-auth/v2/models"
+	authula "github.com/Authula/authula"
+	authulaconfig "github.com/Authula/authula/config"
+	authulaenv "github.com/Authula/authula/env"
+	authulaevents "github.com/Authula/authula/events"
+	authulamodels "github.com/Authula/authula/models"
 
-	accesscontrolplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/access-control"
-	accesscontrolplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/access-control/types"
-	adminplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/admin"
-	adminplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/admin/types"
-	csrfplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/csrf"
-	emailplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/email"
-	emailpasswordplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/email-password"
-	emailpasswordplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/email-password/types"
-	emailplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/email/types"
+	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
+	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
+	adminplugin "github.com/Authula/authula/plugins/admin"
+	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
+	csrfplugin "github.com/Authula/authula/plugins/csrf"
+	emailplugin "github.com/Authula/authula/plugins/email"
+	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
+	emailpasswordplugintypes "github.com/Authula/authula/plugins/email-password/types"
+	emailplugintypes "github.com/Authula/authula/plugins/email/types"
 
-	// bearerplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/bearer"
-	// jwtplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/jwt"
-	// jwtplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/jwt/types"
-	magiclinkplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/magic-link"
-	magiclinkplugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/magic-link/types"
-	oauth2plugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/oauth2"
-	oauth2plugintypes "github.com/GoBetterAuth/go-better-auth/v2/plugins/oauth2/types"
-	ratelimitplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/rate-limit"
-	secondarystorageplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/secondary-storage"
-	sessionplugin "github.com/GoBetterAuth/go-better-auth/v2/plugins/session"
+	// bearerplugin "github.com/Authula/authula/plugins/bearer"
+	// jwtplugin "github.com/Authula/authula/plugins/jwt"
+	// jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
+	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
+	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
+	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
+	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
+	ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
+	secondarystorageplugin "github.com/Authula/authula/plugins/secondary-storage"
+	sessionplugin "github.com/Authula/authula/plugins/session"
 
-	loggerplugin "github.com/GoBetterAuth/go-better-auth-playground/plugins/logger"
-	loggerplugintypes "github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/types"
+	loggerplugin "github.com/Authula/authula-playground/plugins/logger"
+	loggerplugintypes "github.com/Authula/authula-playground/plugins/logger/types"
 )
 
 func main() {
@@ -53,44 +53,44 @@ func main() {
 	slog.SetDefault(logger)
 
 	// -------------------------------------
-	// Init GoBetterAuth config
+	// Init Authula config
 	// -------------------------------------
 
-	config := gobetterauthconfig.NewConfig(
-		gobetterauthconfig.WithAppName("GoBetterAuthPlayground"),
-		gobetterauthconfig.WithBasePath("/api/auth"),
-		gobetterauthconfig.WithDatabase(gobetterauthmodels.DatabaseConfig{
+	config := authulaconfig.NewConfig(
+		authulaconfig.WithAppName("AuthulaPlayground"),
+		authulaconfig.WithBasePath("/api/auth"),
+		authulaconfig.WithDatabase(authulamodels.DatabaseConfig{
 			Provider: "postgres",
-			URL:      os.Getenv(gobetterauthenv.EnvDatabaseURL),
+			URL:      os.Getenv(authulaenv.EnvDatabaseURL),
 		}),
-		gobetterauthconfig.WithLogger(gobetterauthmodels.LoggerConfig{
+		authulaconfig.WithLogger(authulamodels.LoggerConfig{
 			Level: "debug",
 		}),
-		gobetterauthconfig.WithSession(gobetterauthmodels.SessionConfig{
+		authulaconfig.WithSession(authulamodels.SessionConfig{
 			AutoCleanup:     true,
 			CleanupInterval: time.Minute,
 		}),
-		gobetterauthconfig.WithVerification(gobetterauthmodels.VerificationConfig{
+		authulaconfig.WithVerification(authulamodels.VerificationConfig{
 			AutoCleanup:     true,
 			CleanupInterval: time.Minute,
 		}),
-		gobetterauthconfig.WithSecurity(gobetterauthmodels.SecurityConfig{
+		authulaconfig.WithSecurity(authulamodels.SecurityConfig{
 			TrustedOrigins: []string{"http://localhost:3000"},
-			CORS: gobetterauthmodels.CORSConfig{
+			CORS: authulamodels.CORSConfig{
 				AllowCredentials: true,
 				AllowedOrigins:   []string{"http://localhost:3000"},
-				AllowedHeaders:   []string{"Authorization", "Content-Type", "Cookie", "Set-Cookie", "X-GOBETTERAUTH-CSRF-TOKEN"},
-				ExposedHeaders:   []string{"X-GOBETTERAUTH-CSRF-TOKEN"},
+				AllowedHeaders:   []string{"Authorization", "Content-Type", "Cookie", "Set-Cookie", "X-AUTHULA-CSRF-TOKEN"},
+				ExposedHeaders:   []string{"X-AUTHULA-CSRF-TOKEN"},
 			},
 		}),
-		gobetterauthconfig.WithEventBus(gobetterauthmodels.EventBusConfig{
-			Provider: gobetterauthevents.ProviderKafka,
-			Kafka: &gobetterauthmodels.KafkaConfig{
-				Brokers:       os.Getenv(gobetterauthenv.EnvKafkaBrokers),
-				ConsumerGroup: os.Getenv(gobetterauthenv.EnvEventBusConsumerGroup),
+		authulaconfig.WithEventBus(authulamodels.EventBusConfig{
+			Provider: authulaevents.ProviderKafka,
+			Kafka: &authulamodels.KafkaConfig{
+				Brokers:       os.Getenv(authulaenv.EnvKafkaBrokers),
+				ConsumerGroup: os.Getenv(authulaenv.EnvEventBusConsumerGroup),
 			},
 		}),
-		gobetterauthconfig.WithRouteMappings([]gobetterauthmodels.RouteMapping{
+		authulaconfig.WithRouteMappings([]authulamodels.RouteMapping{
 			{
 				Method: "GET",
 				Path:   "/me",
@@ -182,12 +182,13 @@ func main() {
 	)
 
 	// -------------------------------------
-	// Init GoBetterAuth instance
+	// Init Authula instance
 	// -------------------------------------
 
-	goBetterAuth := gobetterauth.New(&gobetterauth.AuthConfig{
+	authula := authula.New(&authula.AuthConfig{
 		Config: config,
-		Plugins: []gobetterauthmodels.Plugin{
+		Plugins: []authulamodels.Plugin{
+			// Built-in plugins
 			accesscontrolplugin.New(accesscontrolplugintypes.AccessControlPluginConfig{
 				Enabled: true,
 			}),
@@ -200,7 +201,7 @@ func main() {
 				Enabled:  true,
 				Provider: secondarystorageplugin.SecondaryStorageProviderRedis,
 				Redis: &secondarystorageplugin.RedisStorageConfig{
-					URL: os.Getenv(gobetterauthenv.EnvRedisURL),
+					URL: os.Getenv(authulaenv.EnvRedisURL),
 				},
 			}),
 			csrfplugin.New(csrfplugin.CSRFPluginConfig{
@@ -226,20 +227,20 @@ func main() {
 				Providers: map[string]oauth2plugintypes.ProviderConfig{
 					"discord": {
 						Enabled:      true,
-						ClientID:     os.Getenv(gobetterauthenv.EnvDiscordClientID),
-						ClientSecret: os.Getenv(gobetterauthenv.EnvDiscordClientSecret),
+						ClientID:     os.Getenv(authulaenv.EnvDiscordClientID),
+						ClientSecret: os.Getenv(authulaenv.EnvDiscordClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/discord", config.BaseURL, config.BasePath),
 					},
 					"github": {
 						Enabled:      true,
-						ClientID:     os.Getenv(gobetterauthenv.EnvGithubClientID),
-						ClientSecret: os.Getenv(gobetterauthenv.EnvGithubClientSecret),
+						ClientID:     os.Getenv(authulaenv.EnvGithubClientID),
+						ClientSecret: os.Getenv(authulaenv.EnvGithubClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/github", config.BaseURL, config.BasePath),
 					},
 					"google": {
 						Enabled:      true,
-						ClientID:     os.Getenv(gobetterauthenv.EnvGoogleClientID),
-						ClientSecret: os.Getenv(gobetterauthenv.EnvGoogleClientSecret),
+						ClientID:     os.Getenv(authulaenv.EnvGoogleClientID),
+						ClientSecret: os.Getenv(authulaenv.EnvGoogleClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/google", config.BaseURL, config.BasePath),
 					},
 				},
@@ -261,6 +262,8 @@ func main() {
 				Enabled:  true,
 				Provider: ratelimitplugin.RateLimitProviderRedis,
 			}),
+
+			// Custom plugins
 			loggerplugin.New(loggerplugintypes.LoggerPluginConfig{
 				Enabled:     true,
 				MaxLogCount: 10,
@@ -270,11 +273,11 @@ func main() {
 
 	// You can uncomment the following 2 lines to drop all migrations (i.e., reset the database).
 	// ctx := context.Background()
-	// if err := goBetterAuth.PluginRegistry.DropMigrations(ctx); err != nil {
+	// if err := authula.PluginRegistry.DropMigrations(ctx); err != nil {
 	// 	slog.Error("failed to drop plugin migrations", "error", err)
 	// 	return
 	// }
-	// if err := goBetterAuth.DropCoreMigrations(ctx); err != nil {
+	// if err := authula.DropCoreMigrations(ctx); err != nil {
 	// 	slog.Error("failed to drop core migrations", "error", err)
 	// 	return
 	// }
@@ -288,20 +291,20 @@ func main() {
 	// -------------------------------------
 
 	// Health check endpoint
-	goBetterAuth.RegisterCustomRoute(gobetterauthmodels.Route{
+	authula.RegisterCustomRoute(authulamodels.Route{
 		Method: "GET",
 		Path:   "/api/v1/health",
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			reqCtx, _ := gobetterauthmodels.GetRequestContext(r.Context())
+			reqCtx, _ := authulamodels.GetRequestContext(r.Context())
 			reqCtx.SetJSONResponse(http.StatusOK, map[string]any{
 				"status": "ok",
 			})
 		}),
 	})
 
-	// goBetterAuth.RegisterHook(gobetterauthmodels.Hook{
-	// 	Stage: gobetterauthmodels.HookBefore,
-	// 	Matcher: func(ctx *gobetterauthmodels.RequestContext) bool {
+	// authula.RegisterHook(authulamodels.Hook{
+	// 	Stage: authulamodels.HookBefore,
+	// 	Matcher: func(ctx *authulamodels.RequestContext) bool {
 	// 		return ctx.UserID != nil && *ctx.UserID != "" && slices.Contains(
 	// 			[]string{
 	// 				"/api/protected",
@@ -310,20 +313,20 @@ func main() {
 	// 			ctx.Path,
 	// 		)
 	// 	},
-	// 	Handler: func(ctx *gobetterauthmodels.RequestContext) error {
+	// 	Handler: func(ctx *authulamodels.RequestContext) error {
 	// 		// Do as you wish before the request is processed by the route handler...
 	// 		return nil
 	// 	},
 	// })
 
 	// -------------------------------------
-	// Attach GoBetterAuth handler to your chosen framework and run your server
+	// Attach Authula handler to your chosen framework and run your server
 	// All hooks (CORS, auth, rate limiting, etc.) are applied via the plugin system
 	// -------------------------------------
 
-	port := os.Getenv(gobetterauthenv.EnvPort)
+	port := os.Getenv(authulaenv.EnvPort)
 	slog.Debug(fmt.Sprintf("Server running on http://localhost:%s", port))
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), goBetterAuth.Handler()); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), authula.Handler()); err != nil {
 		slog.Error("Server error", "err", err)
 	}
 }

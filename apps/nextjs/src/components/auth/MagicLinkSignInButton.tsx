@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { goBetterAuthClientBrowser } from "@/lib/gba-client-browser";
+import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -30,7 +30,7 @@ export default function MagicLinkSignInButton() {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await goBetterAuthClientBrowser.magicLink.signIn({
+        const response = await authulaClientBrowser.magicLink.signIn({
           email: value.email,
           callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
         });

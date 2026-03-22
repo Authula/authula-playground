@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Field, FieldLabel, FieldError } from "~/components/ui/field";
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 const requestEmailChangeSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -28,7 +28,7 @@ export default function RequestEmailChangePage() {
 
   const onSubmit = async (data: RequestEmailChangeFormData) => {
     try {
-      await goBetterAuthClient.emailPassword.requestEmailChange({
+      await authulaClient.emailPassword.requestEmailChange({
         email: data.email,
         callbackUrl: "http://localhost:3000/dashboard",
       });

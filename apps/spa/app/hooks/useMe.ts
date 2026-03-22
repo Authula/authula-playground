@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import type { GetMeResponse } from "go-better-auth";
+import type { GetMeResponse } from "authula";
 
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 export async function fetchMe(): Promise<GetMeResponse> {
-  const data = await goBetterAuthClient.getMe<GetMeResponse>();
+  const data = await authulaClient.getMe<GetMeResponse>();
   return data;
 }
 

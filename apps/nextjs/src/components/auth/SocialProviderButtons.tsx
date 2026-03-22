@@ -3,14 +3,14 @@
 import { ENV_CONFIG } from "@/constants/env-config";
 import { OAuth2ProviderType } from "@/models";
 import { Button } from "../ui/button";
-import { goBetterAuthClientBrowser } from "@/lib/gba-client-browser";
+import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 export default function SocialProviderButtons() {
   const handleSocialSignIn = async (
     provider: OAuth2ProviderType,
   ): Promise<void> => {
     try {
-      const { authUrl } = await goBetterAuthClientBrowser.oauth2.signIn({
+      const { authUrl } = await authulaClientBrowser.oauth2.signIn({
         provider,
         redirectTo: `${ENV_CONFIG.baseUrl}/dashboard`,
       });

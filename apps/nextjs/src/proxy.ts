@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function proxy(request: NextRequest) {
   // const cookieStore = await cookies();
-  // const sessionCookie = cookieStore.get("gobetterauth.session_token");
+  // const sessionCookie = cookieStore.get("authula.session_token");
 
   // const isAuthenticated = !!sessionCookie;
   // const pathname = request.nextUrl.pathname;

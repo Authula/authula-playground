@@ -1,14 +1,14 @@
-import type { OAuth2ProviderType } from "go-better-auth/plugins";
+import type { OAuth2ProviderType } from "authula/plugins";
 
 import { Button } from "../ui/button";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 export default function SocialProviderButtons() {
   const handleSocialSignIn = async (
     provider: OAuth2ProviderType,
   ): Promise<void> => {
     try {
-      const { authUrl } = await goBetterAuthClient.oauth2.signIn({
+      const { authUrl } = await authulaClient.oauth2.signIn({
         provider,
         redirectTo: `http://localhost:3000/dashboard`,
       });

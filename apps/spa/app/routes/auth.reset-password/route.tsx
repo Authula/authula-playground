@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Field, FieldLabel, FieldError } from "~/components/ui/field";
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 const resetPasswordSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -28,7 +28,7 @@ export default function ResetPasswordPage() {
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     try {
-      await goBetterAuthClient.emailPassword.requestPasswordReset({
+      await authulaClient.emailPassword.requestPasswordReset({
         email: data.email,
         callbackUrl: "http://localhost:3000/change-password",
       });

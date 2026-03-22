@@ -3,14 +3,14 @@ import { Mail } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 export default function EmailVerificationPage() {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     try {
-      await goBetterAuthClient.emailPassword.sendEmailVerification({
+      await authulaClient.emailPassword.sendEmailVerification({
         email: localStorage.getItem("email") ?? "",
         callbackUrl: "http://localhost:3000/dashboard",
       });

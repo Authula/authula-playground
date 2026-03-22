@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useMe } from "~/hooks/useMe";
 import { toast } from "~/hooks/use-toast";
 import { Spinner } from "~/components/ui/spinner";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 function formatDate(date?: string) {
   if (!date) return "-";
@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   const signOut = async () => {
     try {
-      await goBetterAuthClient.signOut({});
+      await authulaClient.signOut({});
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       toast({ title: "Signed out", description: "You have been signed out" });

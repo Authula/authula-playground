@@ -1,8 +1,14 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function HomePage() {
   return (
@@ -12,13 +18,13 @@ export default function HomePage() {
           <Image
             className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
             src="/app-logo.png"
-            alt="GoBetterAuth Logo"
+            alt="Authula Logo"
             width={180}
             height={37}
             priority
           />
           <CardTitle className="mt-4 text-2xl font-semibold">
-            Welcome to GoBetterAuth Playground
+            Welcome to Authula Playground
           </CardTitle>
           <CardDescription>
             An example modern authentication solution built with Go and Next.js.

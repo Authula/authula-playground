@@ -6,9 +6,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/repositories"
-	"github.com/GoBetterAuth/go-better-auth-playground/plugins/logger/types"
-	"github.com/GoBetterAuth/go-better-auth/v2/models"
+	"github.com/Authula/authula/models"
+
+	"github.com/Authula/authula-playground/plugins/logger/repositories"
+	"github.com/Authula/authula-playground/plugins/logger/types"
 )
 
 // service implements the UseCase interface for logger operations

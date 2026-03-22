@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 
 import { flattenValidationErrors } from "next-safe-action";
 import { z } from "zod";
-import { GetMeResponse } from "go-better-auth";
+import { GetMeResponse } from "authula";
 
 import { ENV_CONFIG } from "@/constants/env-config";
 import { actionClient } from "@/lib/safe-action";
 import { ActionError } from "@/models";
-import { goBetterAuthClientServer } from "@/lib/gba-client-server";
+import { authulaClientServer } from "@/lib/authula-client-server";
 
 // --------------------------
 
@@ -30,7 +30,7 @@ export const signUpAction = actionClient
   })
   .action(async ({ parsedInput }) => {
     try {
-      const data: any = await goBetterAuthClientServer.emailPassword.signUp({
+      const data: any = await authulaClientServer.emailPassword.signUp({
         name: parsedInput.name,
         email: parsedInput.email,
         password: parsedInput.password,
@@ -67,7 +67,7 @@ export const signInAction = actionClient
   .action(async ({ parsedInput }) => {
     let data: GetMeResponse | null = null;
     try {
-      data = await goBetterAuthClientServer.emailPassword.signIn({
+      data = await authulaClientServer.emailPassword.signIn({
         email: parsedInput.email,
         password: parsedInput.password,
         callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
@@ -104,7 +104,7 @@ export const sendEmailVerificationAction = actionClient
   .action(async ({ parsedInput }) => {
     try {
       const data: any =
-        await goBetterAuthClientServer.emailPassword.sendEmailVerification({
+        await authulaClientServer.emailPassword.sendEmailVerification({
           email: parsedInput.email,
           callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
         });
@@ -138,7 +138,7 @@ export const resetPasswordAction = actionClient
   .action(async ({ parsedInput }) => {
     try {
       const data: any =
-        await goBetterAuthClientServer.emailPassword.requestPasswordReset({
+        await authulaClientServer.emailPassword.requestPasswordReset({
           email: parsedInput.email,
           callbackUrl: `${ENV_CONFIG.baseUrl}/auth/change-password`,
         });
@@ -175,11 +175,10 @@ export const changePasswordAction = actionClient
   })
   .action(async ({ parsedInput }) => {
     try {
-      const data: any =
-        await goBetterAuthClientServer.emailPassword.changePassword({
-          token: parsedInput.token,
-          password: parsedInput.newPassword,
-        });
+      const data: any = await authulaClientServer.emailPassword.changePassword({
+        token: parsedInput.token,
+        password: parsedInput.newPassword,
+      });
 
       return data;
     } catch (error) {
@@ -216,7 +215,7 @@ export const emailChangeAction = actionClient
   .action(async ({ parsedInput }) => {
     try {
       const data: any =
-        await goBetterAuthClientServer.emailPassword.requestEmailChange({
+        await authulaClientServer.emailPassword.requestEmailChange({
           email: parsedInput.newEmail,
           callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
         });

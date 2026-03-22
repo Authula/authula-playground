@@ -18,7 +18,7 @@ ENV CGO_ENABLED=1
 # --------------------------------------
 # Need to add the devcontainer workspace folder as a safe directory to enable git 
 # version control system to be enabled in the containers file system.
-RUN git config --global --add safe.directory "/workspaces/go-better-auth-playground"
+RUN git config --global --add safe.directory "/workspaces/authula-playground"
 # --------------------------------------
 
 # --------------------------------------

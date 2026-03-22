@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import type { JWTTokensResponse } from "go-better-auth/plugins";
+import type { JWTTokensResponse } from "authula/plugins";
 
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
 import { toast } from "~/hooks/use-toast";
-import { goBetterAuthClient } from "~/lib/gba-client";
+import { authulaClient } from "~/lib/authula-client";
 
 export default function MagicLinkExchangePage() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function MagicLinkExchangePage() {
     const exchangeToken = async () => {
       try {
         const response =
-          await goBetterAuthClient.magicLink.exchange<JWTTokensResponse>({
+          await authulaClient.magicLink.exchange<JWTTokensResponse>({
             token: token,
           });
 

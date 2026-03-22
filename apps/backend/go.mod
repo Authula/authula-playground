@@ -1,9 +1,8 @@
-module github.com/GoBetterAuth/go-better-auth-playground
+module github.com/Authula/authula-playground
 
 go 1.26.1
 
 require (
-	github.com/GoBetterAuth/go-better-auth/v2 v2.12.0
 	github.com/joho/godotenv v1.5.1
 	github.com/uptrace/bun v1.2.18
 )
