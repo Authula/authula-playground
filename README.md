@@ -1,10 +1,16 @@
-# Go Better Auth Playground
+<p align="center" style="font-size: 24px; font-weight: bold;">
+ Authula Playground
+</p>
 
-This repository showcases a full-stack authentication system using Go for the backend and Next.js for the frontend. It is designed as a playground to explore secure authentication flows, including user registration, login, and protected routes powered by Authula.
+<p align="center">
+  <img src="./project-logo.png" height="100" width="250" alt="Authula Logo"/>
+</p>
+
+This repository is a playground that demonstrates how to integrate Authula into a full-stack application. It includes a Next.js (SSR) + React Router (SPA) frontends and a Go backend, showcasing how to implement authentication and authorization using Authula.
 
 ## Tech Stack
 
-- Frontend: Next.js
+- Frontend: Next.js + React Router
 - Backend: Go (Golang), Echo (for this example)
 - Library: [Authula](https://github.com/Authula/authula)
 
