@@ -67,8 +67,16 @@ func main() {
 			Level: "debug",
 		}),
 		authulaconfig.WithSession(authulamodels.SessionConfig{
-			AutoCleanup:     true,
-			CleanupInterval: time.Minute,
+			CookieName:         "authula.session_token",
+			ExpiresIn:          time.Hour,
+			UpdateAge:          5 * time.Minute,
+			CookieMaxAge:       24 * time.Hour,
+			Secure:             false,
+			HttpOnly:           true,
+			SameSite:           "lax",
+			MaxSessionsPerUser: 5,
+			AutoCleanup:        true,
+			CleanupInterval:    time.Minute,
 		}),
 		authulaconfig.WithVerification(authulamodels.VerificationConfig{
 			AutoCleanup:     true,
@@ -79,8 +87,10 @@ func main() {
 			CORS: authulamodels.CORSConfig{
 				AllowCredentials: true,
 				AllowedOrigins:   []string{"http://localhost:3000"},
+				AllowedMethods:   []string{"OPTIONS", "GET", "POST", "PATCH", "PUT", "DELETE"},
 				AllowedHeaders:   []string{"Authorization", "Content-Type", "Cookie", "Set-Cookie", "X-AUTHULA-CSRF-TOKEN"},
 				ExposedHeaders:   []string{"X-AUTHULA-CSRF-TOKEN"},
+				MaxAge:           24 * time.Hour,
 			},
 		}),
 		authulaconfig.WithEventBus(authulamodels.EventBusConfig{
