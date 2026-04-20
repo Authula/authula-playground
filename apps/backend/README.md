@@ -8,7 +8,7 @@ This repository contains the backend for the Authula Playground, a demo project 
 
 `Prerequisites`:
 
-- Go 1.25+
+- Go 1.26+
 - PostgreSQL (used as the database for this playground)
 
 ---

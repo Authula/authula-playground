@@ -16,10 +16,6 @@ import (
 	authulaevents "github.com/Authula/authula/events"
 	authulamodels "github.com/Authula/authula/models"
 
-	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
-	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
-	adminplugin "github.com/Authula/authula/plugins/admin"
-	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
 	csrfplugin "github.com/Authula/authula/plugins/csrf"
 	emailplugin "github.com/Authula/authula/plugins/email"
 	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
@@ -29,8 +25,7 @@ import (
 	// bearerplugin "github.com/Authula/authula/plugins/bearer"
 	// jwtplugin "github.com/Authula/authula/plugins/jwt"
 	// jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
-	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
-	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
+
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
 	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
 	ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
@@ -88,7 +83,7 @@ func main() {
 				AllowCredentials: true,
 				AllowedOrigins:   []string{"http://localhost:3000"},
 				AllowedMethods:   []string{"OPTIONS", "GET", "POST", "PATCH", "PUT", "DELETE"},
-				AllowedHeaders:   []string{"Authorization", "Content-Type", "Cookie", "Set-Cookie", "X-AUTHULA-CSRF-TOKEN"},
+				AllowedHeaders:   []string{"Authorization", "Content-Type", "Set-Cookie", "Cookie", "X-AUTHULA-CSRF-TOKEN"},
 				ExposedHeaders:   []string{"X-AUTHULA-CSRF-TOKEN"},
 				MaxAge:           24 * time.Hour,
 			},
@@ -101,92 +96,49 @@ func main() {
 			},
 		}),
 		authulaconfig.WithRouteMappings([]authulamodels.RouteMapping{
+			// Core Routes
 			{
-				Method: "GET",
-				Path:   "/me",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-				},
+				Paths:   []string{"GET:/me"},
+				Plugins: []string{sessionplugin.HookIDSessionAuth.String()},
 			},
 			{
-				Method: "POST",
-				Path:   "/sign-in",
+				Paths: []string{"POST:/sign-out"},
+				Plugins: []string{
+					sessionplugin.HookIDSessionAuth.String(),
+					csrfplugin.HookIDCSRFProtect.String(),
+				},
+			},
+			// Email-Password Routes
+			{
+				Paths: []string{
+					"POST:/email-password/sign-in",
+					"POST:/email-password/sign-up",
+				},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuthOptional.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
 			{
-				Method: "POST",
-				Path:   "/sign-up",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuthOptional.String(),
-					csrfplugin.HookIDCSRFProtect.String(),
-				},
+				Paths:   []string{"GET:/email-password/verify-email"},
+				Plugins: []string{sessionplugin.HookIDSessionAuthOptional.String()},
 			},
 			{
-				Method: "POST",
-				Path:   "/send-email-verification",
+				Paths: []string{
+					"POST:/email-password/send-email-verification",
+					"POST:/email-password/request-password-reset",
+					"POST:/email-password/change-password",
+					"POST:/email-password/request-email-change",
+				},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuth.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
+			// Custom Routes
 			{
-				Method: "POST",
-				Path:   "/request-email-change",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-					csrfplugin.HookIDCSRFProtect.String(),
-				},
-			},
-			{
-				Method: "POST",
-				Path:   "/sign-out",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-					csrfplugin.HookIDCSRFProtect.String(),
-				},
-			},
-			{
-				Method: "POST",
-				Path:   "/magic-link/sign-in",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuthOptional.String(),
-					csrfplugin.HookIDCSRFProtect.String(),
-				},
-			},
-			{
-				Method: "POST",
-				Path:   "/magic-link/exchange",
-				Plugins: []string{
-					csrfplugin.HookIDCSRFProtect.String(),
-				},
-			},
-			{
-				Method: "POST",
-				Path:   "/admin/impersonations",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-				},
-			},
-			{
-				Method: "POST",
-				Path:   "/admin/impersonations/{impersonation_id}/stop",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-				},
-			},
-			{
-				Method: "GET",
-				Path:   "/api/v1/health",
-				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
-					accesscontrolplugin.HookIDAccessControlEnforce.String(),
-				},
-				Permissions: []string{
-					"metrics.read",
-				},
+				Paths:   []string{"GET:/api/v1/health"},
+				Plugins: []string{},
 			},
 		}),
 	)
@@ -199,12 +151,6 @@ func main() {
 		Config: config,
 		Plugins: []authulamodels.Plugin{
 			// Built-in plugins
-			accesscontrolplugin.New(accesscontrolplugintypes.AccessControlPluginConfig{
-				Enabled: true,
-			}),
-			adminplugin.New(adminplugintypes.AdminPluginConfig{
-				Enabled: true,
-			}),
 			// Secondary storage plugin MUST be registered before rate-limit plugin
 			// This allows rate-limit to optionally use Redis/database for distributed rate limiting
 			secondarystorageplugin.New(secondarystorageplugin.SecondaryStoragePluginConfig{
@@ -224,13 +170,17 @@ func main() {
 				TLSMode:     emailplugintypes.SMTPTLSModeOff,
 			}),
 			emailpasswordplugin.New(emailpasswordplugintypes.EmailPasswordPluginConfig{
-				Enabled:                  true,
-				MinPasswordLength:        8,
-				MaxPasswordLength:        32,
-				DisableSignUp:            false,
-				RequireEmailVerification: true,
-				AutoSignIn:               true,
-				SendEmailOnSignUp:        true,
+				Enabled:                     true,
+				MinPasswordLength:           8,
+				MaxPasswordLength:           32,
+				DisableSignUp:               false,
+				RequireEmailVerification:    true,
+				AutoSignIn:                  true,
+				SendEmailOnSignUp:           true,
+				SendEmailOnSignIn:           false,
+				EmailVerificationExpiresIn:  24 * time.Hour,
+				PasswordResetExpiresIn:      time.Hour,
+				RequestEmailChangeExpiresIn: time.Hour,
 			}),
 			oauth2plugin.New(oauth2plugintypes.OAuth2PluginConfig{
 				Enabled: true,
@@ -265,9 +215,6 @@ func main() {
 			// bearerplugin.New(bearerplugin.BearerPluginConfig{
 			// 	Enabled: true,
 			// }),
-			magiclinkplugin.New(magiclinkplugintypes.MagicLinkPluginConfig{
-				Enabled: true,
-			}),
 			ratelimitplugin.New(ratelimitplugin.RateLimitPluginConfig{
 				Enabled:  true,
 				Provider: ratelimitplugin.RateLimitProviderRedis,
