@@ -6,9 +6,8 @@ import (
 	"github.com/Authula/authula-playground/plugins/logger/types"
 )
 
-// UseCase defines the interface for logger operations
 type LoggerService interface {
-	CreateLogEntry(ctx context.Context, eventType string, details string) (*types.LogEntry, error)
+	CreateLogEntry(ctx context.Context, eventType string, details map[string]any) (*types.LogEntry, error)
 	GetLogEntry(ctx context.Context, id int64) (*types.LogEntry, error)
 	GetAllLogs(ctx context.Context) ([]types.LogEntry, error)
 	DeleteLogEntry(ctx context.Context, id int64) error

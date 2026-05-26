@@ -24,11 +24,8 @@ export default function HomePage() {
             priority
           />
           <CardTitle className="mt-4 text-2xl font-semibold">
-            Welcome to Authula Playground
+            Authula Playground
           </CardTitle>
-          <CardDescription>
-            An example modern authentication solution built with Go and Next.js.
-          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Link href="/auth/sign-in" passHref>

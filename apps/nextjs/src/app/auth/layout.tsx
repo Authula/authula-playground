@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
         const response = await authulaClientBrowser.getMe<GetMeResponse>();
         return response;
       } catch (error) {
-        console.error(error);
+        console.log(error);
         return null;
       }
     },

@@ -30,7 +30,7 @@ func NewService(repo repositories.LoggerRepository, logger models.Logger, config
 }
 
 // CreateLogEntry creates a new log entry with hooks
-func (s *service) CreateLogEntry(ctx context.Context, eventType string, details string) (*types.LogEntry, error) {
+func (s *service) CreateLogEntry(ctx context.Context, eventType string, details map[string]any) (*types.LogEntry, error) {
 	entry := &types.LogEntry{
 		EventType: eventType,
 		Details:   details,

@@ -10,7 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	authula "github.com/Authula/authula"
+	"github.com/Authula/authula"
 	authulaconfig "github.com/Authula/authula/config"
 	authulaenv "github.com/Authula/authula/env"
 	authulaevents "github.com/Authula/authula/events"
@@ -28,7 +28,17 @@ import (
 
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
 	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
+
+	// ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
+	// ratelimitplugintypes "github.com/Authula/authula/plugins/rate-limit/types"
+	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
+	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
+	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
+	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
+	organizationsplugin "github.com/Authula/authula/plugins/organizations"
+	organizationsplugintypes "github.com/Authula/authula/plugins/organizations/types"
 	ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
+	ratelimitplugintypes "github.com/Authula/authula/plugins/rate-limit/types"
 	secondarystorageplugin "github.com/Authula/authula/plugins/secondary-storage"
 	sessionplugin "github.com/Authula/authula/plugins/session"
 
@@ -63,7 +73,7 @@ func main() {
 		}),
 		authulaconfig.WithSession(authulamodels.SessionConfig{
 			CookieName:         "authula.session_token",
-			ExpiresIn:          time.Hour,
+			ExpiresIn:          24 * time.Hour,
 			UpdateAge:          5 * time.Minute,
 			CookieMaxAge:       24 * time.Hour,
 			Secure:             false,
@@ -147,7 +157,7 @@ func main() {
 	// Init Authula instance
 	// -------------------------------------
 
-	authula := authula.New(&authula.AuthConfig{
+	auth := authula.New(&authula.AuthConfig{
 		Config: config,
 		Plugins: []authulamodels.Plugin{
 			// Built-in plugins
@@ -157,7 +167,10 @@ func main() {
 				Enabled:  true,
 				Provider: secondarystorageplugin.SecondaryStorageProviderRedis,
 				Redis: &secondarystorageplugin.RedisStorageConfig{
-					URL: os.Getenv(authulaenv.EnvRedisURL),
+					URL:         os.Getenv(authulaenv.EnvRedisURL),
+					MaxRetries:  3,
+					PoolSize:    10,
+					PoolTimeout: 30 * time.Second,
 				},
 			}),
 			csrfplugin.New(csrfplugin.CSRFPluginConfig{
@@ -167,7 +180,7 @@ func main() {
 				Enabled:     true,
 				Provider:    emailplugintypes.ProviderSMTP,
 				FromAddress: "noreply@example.com",
-				TLSMode:     emailplugintypes.SMTPTLSModeOff,
+				TLSMode:     emailplugintypes.SMTPTLSModeStartTLS,
 			}),
 			emailpasswordplugin.New(emailpasswordplugintypes.EmailPasswordPluginConfig{
 				Enabled:                     true,
@@ -215,9 +228,35 @@ func main() {
 			// bearerplugin.New(bearerplugin.BearerPluginConfig{
 			// 	Enabled: true,
 			// }),
-			ratelimitplugin.New(ratelimitplugin.RateLimitPluginConfig{
-				Enabled:  true,
-				Provider: ratelimitplugin.RateLimitProviderRedis,
+			// ratelimitplugin.New(ratelimitplugintypes.RateLimitPluginConfig{
+			// 	Enabled:  true,
+			// 	Provider: ratelimitplugintypes.RateLimitProviderRedis,
+			// }),
+			magiclinkplugin.New(magiclinkplugintypes.MagicLinkPluginConfig{
+				Enabled:       true,
+				ExpiresIn:     time.Hour,
+				DisableSignUp: false,
+				SendMagicLinkVerificationEmail: func(
+					params magiclinkplugintypes.SendMagicLinkVerificationEmailParams,
+					reqCtx *authulamodels.RequestContext,
+				) error {
+					// Optionally handle sending email here...
+					return nil
+				},
+			}),
+			accesscontrolplugin.New(accesscontrolplugintypes.AccessControlPluginConfig{
+				Enabled: true,
+			}),
+			organizationsplugin.New(organizationsplugintypes.OrganizationsPluginConfig{
+				Enabled:                          true,
+				RequireEmailVerifiedOnInvitation: true,
+			}),
+			ratelimitplugin.New(ratelimitplugintypes.RateLimitPluginConfig{
+				Enabled:     true,
+				Provider:    ratelimitplugintypes.RateLimitProviderRedis,
+				Window:      time.Minute,
+				Max:         100,
+				CustomRules: map[string]ratelimitplugintypes.RateLimitRule{},
 			}),
 
 			// Custom plugins
@@ -241,6 +280,30 @@ func main() {
 	// slog.Info("all migrations dropped successfully")
 	// return
 
+	// // Example of how to programmatically interact with plugins outside of route handlers, hooks, etc.
+	// organizationsPlugin, ok := authula.PluginRegistry.GetPlugin(authulamodels.PluginOrganizations.String()).(*organizations.OrganizationsPlugin)
+	// if !ok {
+	// 	// You can return early here in your own code or handle it differently however you wish...
+	// 	return
+	// }
+
+	// // Now you can use the plugin's API to perform actions programmatically outside of route handlers, hooks, etc.
+	// ctx := context.Background()
+	// organizations, err := organizationsPlugin.Api.GetAllOrganizations(ctx, "f8863909-2e90-4276-bab6-84659550b294")
+	// if err != nil {
+	// 	slog.Error("failed to get organizations", "error", err)
+	// } else {
+	// 	slog.Info("organizations retrieved successfully", "organizations", organizations)
+	// }
+
+	// ctx := context.Background()
+	// signOutResult, err := auth.Api.SignOut(ctx, "2c287cae-70bb-4a97-b4a8-313e301bca7b", nil, new(true))
+	// if err != nil {
+	// 	slog.Error("failed to sign out", "error", err)
+	// } else {
+	// 	slog.Info(signOutResult.Message)
+	// }
+
 	// -------------------------------------
 	// Add custom routes to the router
 	// Note: Call RegisterCustomRoute() BEFORE Handler() to ensure routes are registered before handler is served
@@ -248,7 +311,7 @@ func main() {
 	// -------------------------------------
 
 	// Health check endpoint
-	authula.RegisterCustomRoute(authulamodels.Route{
+	auth.RegisterCustomRoute(authulamodels.Route{
 		Method: "GET",
 		Path:   "/api/v1/health",
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -283,7 +346,7 @@ func main() {
 
 	port := os.Getenv(authulaenv.EnvPort)
 	slog.Debug(fmt.Sprintf("Server running on http://localhost:%s", port))
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), authula.Handler()); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), auth.Handler()); err != nil {
 		slog.Error("Server error", "err", err)
 	}
 }

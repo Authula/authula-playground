@@ -30,11 +30,11 @@ func loggerSQLiteInitial() migrations.Migration {
 				ctx,
 				tx,
 				`CREATE TABLE IF NOT EXISTS log_entries (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  event_type VARCHAR(32) NOT NULL,
-  details TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);`,
+					id INTEGER PRIMARY KEY AUTOINCREMENT,
+					event_type VARCHAR(32) NOT NULL,
+					details TEXT NOT NULL,
+					created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+				);`,
 			)
 		},
 		Down: func(ctx context.Context, tx bun.Tx) error {
@@ -55,11 +55,11 @@ func loggerPostgresInitial() migrations.Migration {
 				ctx,
 				tx,
 				`CREATE TABLE IF NOT EXISTS log_entries (
-  id BIGSERIAL PRIMARY KEY,
-  event_type VARCHAR(32) NOT NULL,
-  details TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT NOW()
-);`,
+					id BIGSERIAL PRIMARY KEY,
+					event_type VARCHAR(32) NOT NULL,
+					details JSONB NOT NULL,
+					created_at TIMESTAMP NOT NULL DEFAULT NOW()
+				);`,
 			)
 		},
 		Down: func(ctx context.Context, tx bun.Tx) error {
@@ -80,11 +80,11 @@ func loggerMySQLInitial() migrations.Migration {
 				ctx,
 				tx,
 				`CREATE TABLE IF NOT EXISTS log_entries (
-  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  event_type VARCHAR(32) NOT NULL,
-  details TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
+					id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+					event_type VARCHAR(32) NOT NULL,
+					details JSON NOT NULL,
+					created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
 			)
 		},
 		Down: func(ctx context.Context, tx bun.Tx) error {
