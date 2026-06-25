@@ -29,8 +29,6 @@ import (
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
 	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
 
-	// ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
-	// ratelimitplugintypes "github.com/Authula/authula/plugins/rate-limit/types"
 	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
 	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
 	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
