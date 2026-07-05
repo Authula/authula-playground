@@ -31,7 +31,7 @@ services:
       - authula_playground_network
 
   redpanda:
-    image: redpandadata/redpanda:v26.1.7
+    image: redpandadata/redpanda:v26.1.12
     command:
       - redpanda
       - start
@@ -74,7 +74,7 @@ services:
       - authula_playground_network
 
   console:
-    image: redpandadata/console:v3.7.2
+    image: redpandadata/console:v3.8.0
     ports:
       - ${REDPANDA_CONSOLE_PORT}:8080
     environment:

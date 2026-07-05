@@ -149,7 +149,7 @@ export default function SignInForm() {
               />
 
               <div className="text-right text-sm">
-                <Link href="/auth/reset-password" className="underline">
+                <Link href="/auth/request-password-reset" className="underline">
                   Forgot password?
                 </Link>
               </div>

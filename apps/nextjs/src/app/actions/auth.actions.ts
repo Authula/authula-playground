@@ -105,7 +105,6 @@ export const sendEmailVerificationAction = actionClient
     try {
       const data: any =
         await authulaClientServer.emailPassword.sendEmailVerification({
-          email: parsedInput.email,
           callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
         });
 
@@ -216,7 +215,7 @@ export const emailChangeAction = actionClient
     try {
       const data: any =
         await authulaClientServer.emailPassword.requestEmailChange({
-          email: parsedInput.newEmail,
+          newEmail: parsedInput.newEmail,
           callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
         });
 

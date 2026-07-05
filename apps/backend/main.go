@@ -15,30 +15,29 @@ import (
 	authulaenv "github.com/Authula/authula/env"
 	authulaevents "github.com/Authula/authula/events"
 	authulamodels "github.com/Authula/authula/models"
-
+	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
+	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
+	adminplugin "github.com/Authula/authula/plugins/admin"
+	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
 	csrfplugin "github.com/Authula/authula/plugins/csrf"
 	emailplugin "github.com/Authula/authula/plugins/email"
 	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
 	emailpasswordplugintypes "github.com/Authula/authula/plugins/email-password/types"
 	emailplugintypes "github.com/Authula/authula/plugins/email/types"
-
-	// bearerplugin "github.com/Authula/authula/plugins/bearer"
-	// jwtplugin "github.com/Authula/authula/plugins/jwt"
-	// jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
-
-	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
-	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
-
-	accesscontrolplugin "github.com/Authula/authula/plugins/access-control"
-	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
 	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
 	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
+	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
+	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
 	organizationsplugin "github.com/Authula/authula/plugins/organizations"
 	organizationsplugintypes "github.com/Authula/authula/plugins/organizations/types"
 	ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
 	ratelimitplugintypes "github.com/Authula/authula/plugins/rate-limit/types"
 	secondarystorageplugin "github.com/Authula/authula/plugins/secondary-storage"
 	sessionplugin "github.com/Authula/authula/plugins/session"
+
+	// bearerplugin "github.com/Authula/authula/plugins/bearer"
+	// jwtplugin "github.com/Authula/authula/plugins/jwt"
+	// jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
 
 	loggerplugin "github.com/Authula/authula-playground/plugins/logger"
 	loggerplugintypes "github.com/Authula/authula-playground/plugins/logger/types"
@@ -171,6 +170,9 @@ func main() {
 					PoolTimeout: 30 * time.Second,
 				},
 			}),
+			accesscontrolplugin.New(accesscontrolplugintypes.AccessControlPluginConfig{
+				Enabled: true,
+			}),
 			csrfplugin.New(csrfplugin.CSRFPluginConfig{
 				Enabled: false,
 			}),
@@ -226,10 +228,6 @@ func main() {
 			// bearerplugin.New(bearerplugin.BearerPluginConfig{
 			// 	Enabled: true,
 			// }),
-			// ratelimitplugin.New(ratelimitplugintypes.RateLimitPluginConfig{
-			// 	Enabled:  true,
-			// 	Provider: ratelimitplugintypes.RateLimitProviderRedis,
-			// }),
 			magiclinkplugin.New(magiclinkplugintypes.MagicLinkPluginConfig{
 				Enabled:       true,
 				ExpiresIn:     time.Hour,
@@ -242,8 +240,9 @@ func main() {
 					return nil
 				},
 			}),
-			accesscontrolplugin.New(accesscontrolplugintypes.AccessControlPluginConfig{
-				Enabled: true,
+			adminplugin.New(adminplugintypes.AdminPluginConfig{
+				Enabled:                   true,
+				ImpersonationMaxExpiresIn: 15 * time.Minute,
 			}),
 			organizationsplugin.New(organizationsplugintypes.OrganizationsPluginConfig{
 				Enabled:                          true,
