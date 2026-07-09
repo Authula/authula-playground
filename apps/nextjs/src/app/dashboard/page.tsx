@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   let data: GetMeResponse | null = null;
   try {
-    data = await authulaClientServer.getMe();
+    data = await authulaClientServer.core.getMe();
   } catch (error) {
     console.error(error);
   }

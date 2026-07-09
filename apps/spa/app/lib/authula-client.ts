@@ -1,5 +1,6 @@
 import { createClient } from "authula";
 import {
+  CorePlugin,
   EmailPasswordPlugin,
   OAuth2Plugin,
   CSRFPlugin,
@@ -13,6 +14,7 @@ import ENV_CONFIG from "~/constants/env-config";
 export const authulaClient = createClient({
   url: ENV_CONFIG.authula.url,
   plugins: [
+    new CorePlugin(),
     new EmailPasswordPlugin(),
     new OAuth2Plugin(),
     new CSRFPlugin({

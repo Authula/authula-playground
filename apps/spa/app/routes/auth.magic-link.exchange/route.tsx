@@ -27,14 +27,15 @@ export default function MagicLinkExchangePage() {
 
     const exchangeToken = async () => {
       try {
-        const response =
-          await authulaClient.magicLink.exchange<JWTTokensResponse>({
-            token: token,
-          });
-
-        // Store tokens in localStorage
-        localStorage.setItem("accessToken", response.accessToken);
-        localStorage.setItem("refreshToken", response.refreshToken);
+        const response = await authulaClient.magicLink.exchangeMagicLink({
+          token,
+        });
+        console.log(response);
+        const jwtTokensResponse = response as unknown as JWTTokensResponse;
+        localStorage.setItem("accessToken", jwtTokensResponse.accessToken);
+        if (jwtTokensResponse.refreshToken) {
+          localStorage.setItem("refreshToken", jwtTokensResponse.refreshToken);
+        }
 
         setStatus("success");
       } catch (error: any) {

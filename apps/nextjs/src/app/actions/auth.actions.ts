@@ -72,7 +72,6 @@ export const signInAction = actionClient
         password: parsedInput.password,
         callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
       });
-      console.log(data);
     } catch (error) {
       console.error("Error signing in:", error);
       if (error instanceof ActionError) {
@@ -96,12 +95,7 @@ export const signInAction = actionClient
 
 export const sendEmailVerificationAction = actionClient
   .metadata({ actionName: "sendEmailVerificationAction" })
-  .inputSchema(
-    z.object({
-      email: z.email("Invalid email address"),
-    }),
-  )
-  .action(async ({ parsedInput }) => {
+  .action(async ({}) => {
     try {
       const data: any =
         await authulaClientServer.emailPassword.sendEmailVerification({

@@ -19,7 +19,7 @@ export default function SignOutButton() {
   const handleSignOut = async () => {
     try {
       setIsLoading(true);
-      await authulaClientBrowser.signOut({});
+      await authulaClientBrowser.core.signOut();
       queryClient.removeQueries();
       router.push("/auth/sign-in");
     } catch (error: any) {

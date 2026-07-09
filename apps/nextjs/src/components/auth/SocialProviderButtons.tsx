@@ -10,10 +10,12 @@ export default function SocialProviderButtons() {
     provider: OAuth2ProviderType,
   ): Promise<void> => {
     try {
-      const { authUrl } = await authulaClientBrowser.oauth2.signIn({
+      const { authUrl } = await authulaClientBrowser.oauth2.oauthAuthorize(
         provider,
-        redirectTo: `${ENV_CONFIG.baseUrl}/dashboard`,
-      });
+        {
+          redirectTo: `${ENV_CONFIG.baseUrl}/dashboard`,
+        },
+      );
       window.location.href = authUrl;
     } catch (error) {
       console.error(error);

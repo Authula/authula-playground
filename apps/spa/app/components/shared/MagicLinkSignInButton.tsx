@@ -34,7 +34,7 @@ export default function MagicLinkSignInButton() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await authulaClient.magicLink.signIn({
+      const response = await authulaClient.magicLink.signInWithMagicLink({
         email: data.email,
         callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
       });

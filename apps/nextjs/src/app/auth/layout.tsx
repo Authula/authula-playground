@@ -3,31 +3,21 @@
 import { PropsWithChildren } from "react";
 import { redirect, usePathname } from "next/navigation";
 
-import { useQuery } from "@tanstack/react-query";
-import { GetMeResponse } from "authula";
-
 import { Spinner } from "@/components/ui/spinner";
 import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 export default function AuthLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      try {
-        const response = await authulaClientBrowser.getMe<GetMeResponse>();
-        return response;
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
+  const { data, isLoading } = authulaClientBrowser.core.useGetMe({
+    query: {
+      retry: false,
     },
   });
 
   if (isLoading) {
     return (
-      <div>
+      <div className="grid place-items-center p-4">
         <Spinner />
       </div>
     );

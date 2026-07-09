@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   const signOut = async () => {
     try {
-      await authulaClient.signOut({});
+      await authulaClient.core.signOut();
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       toast({ title: "Signed out", description: "You have been signed out" });

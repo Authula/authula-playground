@@ -30,10 +30,11 @@ export default function MagicLinkSignInButton() {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await authulaClientBrowser.magicLink.signIn({
-          email: value.email,
-          callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
-        });
+        const response =
+          await authulaClientBrowser.magicLink.signInWithMagicLink({
+            email: value.email,
+            callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
+          });
         setSubmittedEmail(value.email);
         setIsSubmitted(true);
         toast.success(response.message);

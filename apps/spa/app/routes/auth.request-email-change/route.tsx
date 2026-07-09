@@ -29,7 +29,7 @@ export default function RequestEmailChangePage() {
   const onSubmit = async (data: RequestEmailChangeFormData) => {
     try {
       await authulaClient.emailPassword.requestEmailChange({
-        email: data.email,
+        newEmail: data.email,
         callbackUrl: "http://localhost:3000/dashboard",
       });
 

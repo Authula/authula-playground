@@ -1,15 +1,10 @@
-import type { OAuth2ProviderType } from "authula/plugins";
-
 import { Button } from "../ui/button";
 import { authulaClient } from "~/lib/authula-client";
 
 export default function SocialProviderButtons() {
-  const handleSocialSignIn = async (
-    provider: OAuth2ProviderType,
-  ): Promise<void> => {
+  const handleSocialSignIn = async (provider: string): Promise<void> => {
     try {
-      const { authUrl } = await authulaClient.oauth2.signIn({
-        provider,
+      const { authUrl } = await authulaClient.oauth2.oauthAuthorize(provider, {
         redirectTo: `http://localhost:3000/dashboard`,
       });
       window.location.href = authUrl;

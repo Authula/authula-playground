@@ -29,7 +29,7 @@ export default function MagicLinkExchangePage() {
 
     const exchangeToken = async () => {
       try {
-        await authulaClientBrowser.magicLink.exchange({
+        await authulaClientBrowser.magicLink.exchangeMagicLink({
           token: token,
         });
         setStatus("success");

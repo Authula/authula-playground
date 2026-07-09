@@ -19,11 +19,13 @@ import (
 	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
 	adminplugin "github.com/Authula/authula/plugins/admin"
 	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
+	"github.com/Authula/authula/plugins/bearer"
 	csrfplugin "github.com/Authula/authula/plugins/csrf"
 	emailplugin "github.com/Authula/authula/plugins/email"
 	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
 	emailpasswordplugintypes "github.com/Authula/authula/plugins/email-password/types"
 	emailplugintypes "github.com/Authula/authula/plugins/email/types"
+	"github.com/Authula/authula/plugins/jwt"
 	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
 	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
@@ -35,9 +37,9 @@ import (
 	secondarystorageplugin "github.com/Authula/authula/plugins/secondary-storage"
 	sessionplugin "github.com/Authula/authula/plugins/session"
 
-	// bearerplugin "github.com/Authula/authula/plugins/bearer"
-	// jwtplugin "github.com/Authula/authula/plugins/jwt"
-	// jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
+	bearerplugin "github.com/Authula/authula/plugins/bearer"
+	jwtplugin "github.com/Authula/authula/plugins/jwt"
+	jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
 
 	loggerplugin "github.com/Authula/authula-playground/plugins/logger"
 	loggerplugintypes "github.com/Authula/authula-playground/plugins/logger/types"
@@ -105,13 +107,18 @@ func main() {
 		authulaconfig.WithRouteMappings([]authulamodels.RouteMapping{
 			// Core Routes
 			{
-				Paths:   []string{"GET:/me"},
-				Plugins: []string{sessionplugin.HookIDSessionAuth.String()},
+				Paths: []string{"GET:/me"},
+				Plugins: []string{
+					// sessionplugin.HookIDSessionAuth.String(),
+					bearer.HookIDBearerAuth.String(),
+					jwt.HookIDJWTRespondJSON.String(),
+				},
 			},
 			{
 				Paths: []string{"POST:/sign-out"},
 				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
+					// sessionplugin.HookIDSessionAuth.String(),
+					bearer.HookIDBearerAuth.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -122,23 +129,48 @@ func main() {
 					"POST:/email-password/sign-up",
 				},
 				Plugins: []string{
-					sessionplugin.HookIDSessionAuthOptional.String(),
+					// sessionplugin.HookIDSessionAuthOptional.String(),
+					bearer.HookIDBearerAuthOptional.String(),
+					jwt.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
 			{
-				Paths:   []string{"GET:/email-password/verify-email"},
-				Plugins: []string{sessionplugin.HookIDSessionAuthOptional.String()},
+				Paths: []string{"GET:/email-password/verify-email"},
+				Plugins: []string{
+					// sessionplugin.HookIDSessionAuthOptional.String(),
+					bearer.HookIDBearerAuthOptional.String(),
+				},
+			},
+			{
+				Paths: []string{
+					"POST:/email-password/request-password-reset",
+					"POST:/email-password/change-password",
+				},
+				Plugins: []string{
+					// sessionplugin.HookIDSessionAuthOptional.String(),
+					bearer.HookIDBearerAuthOptional.String(),
+					csrfplugin.HookIDCSRFProtect.String(),
+				},
 			},
 			{
 				Paths: []string{
 					"POST:/email-password/send-email-verification",
-					"POST:/email-password/request-password-reset",
-					"POST:/email-password/change-password",
 					"POST:/email-password/request-email-change",
 				},
 				Plugins: []string{
-					sessionplugin.HookIDSessionAuth.String(),
+					// sessionplugin.HookIDSessionAuth.String(),
+					bearer.HookIDBearerAuth.String(),
+					csrfplugin.HookIDCSRFProtect.String(),
+				},
+			},
+			// Magic Link Routes
+			{
+				Paths: []string{"POST:/magic-link/exchange"},
+				Plugins: []string{
+					// sessionplugin.HookIDSessionAuth.String(),
+					bearer.HookIDBearerAuth.String(),
+					jwt.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -174,7 +206,7 @@ func main() {
 				Enabled: true,
 			}),
 			csrfplugin.New(csrfplugin.CSRFPluginConfig{
-				Enabled: false,
+				Enabled: true,
 			}),
 			emailplugin.New(emailplugintypes.EmailPluginConfig{
 				Enabled:     true,
@@ -219,26 +251,18 @@ func main() {
 				},
 			}),
 			sessionplugin.New(sessionplugin.SessionPluginConfig{
+				Enabled: false,
+			}),
+			jwtplugin.New(jwtplugintypes.JWTPluginConfig{
 				Enabled: true,
 			}),
-			// jwtplugin.New(jwtplugintypes.JWTPluginConfig{
-			// 	Enabled:   true,
-			// 	Algorithm: jwtplugintypes.JWTAlgEdDSA,
-			// }),
-			// bearerplugin.New(bearerplugin.BearerPluginConfig{
-			// 	Enabled: true,
-			// }),
+			bearerplugin.New(bearerplugin.BearerPluginConfig{
+				Enabled: true,
+			}),
 			magiclinkplugin.New(magiclinkplugintypes.MagicLinkPluginConfig{
 				Enabled:       true,
 				ExpiresIn:     time.Hour,
 				DisableSignUp: false,
-				SendMagicLinkVerificationEmail: func(
-					params magiclinkplugintypes.SendMagicLinkVerificationEmailParams,
-					reqCtx *authulamodels.RequestContext,
-				) error {
-					// Optionally handle sending email here...
-					return nil
-				},
 			}),
 			adminplugin.New(adminplugintypes.AdminPluginConfig{
 				Enabled:                   true,

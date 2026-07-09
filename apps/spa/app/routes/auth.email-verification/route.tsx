@@ -11,7 +11,6 @@ export default function EmailVerificationPage() {
 
     try {
       await authulaClient.emailPassword.sendEmailVerification({
-        email: localStorage.getItem("email") ?? "",
         callbackUrl: "http://localhost:3000/dashboard",
       });
 

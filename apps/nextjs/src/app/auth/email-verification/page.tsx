@@ -26,7 +26,7 @@ export default function EmailVerificationPage() {
 
   const handleSendEmailVerification = async (): Promise<void> => {
     try {
-      const data = await executeAsync({ email: email! });
+      const data = await executeAsync();
       if (data.serverError) {
         throw new Error(data.serverError);
       }

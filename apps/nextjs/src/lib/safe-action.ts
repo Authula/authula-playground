@@ -30,7 +30,7 @@ export const actionClient = createSafeActionClient({
 // will also be used for this one.
 export const authActionClient = actionClient.use(async ({ next }) => {
   try {
-    const data = await authulaClientServer.getMe<GetMeResponse>();
+    const data = await authulaClientServer.core.getMe();
     if (!data.user) {
       throw new Error("Unauthorized");
     }

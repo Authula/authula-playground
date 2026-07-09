@@ -38,10 +38,14 @@ export default function SignInPage({}: Route.ComponentProps) {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      const response =
-        await authulaClient.emailPassword.signIn<JWTTokensResponse>(data);
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
+      const response = await authulaClient.emailPassword.signIn(data);
+      console.log(response);
+
+      const jwtTokensResponse = response as unknown as JWTTokensResponse;
+      localStorage.setItem("accessToken", jwtTokensResponse.accessToken);
+      if (jwtTokensResponse.refreshToken) {
+        localStorage.setItem("refreshToken", jwtTokensResponse.refreshToken);
+      }
 
       toast({
         title: "Success",

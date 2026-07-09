@@ -7,7 +7,7 @@ import { toast } from "~/hooks/use-toast";
 import { authulaClient } from "~/lib/authula-client";
 
 export async function fetchMe(): Promise<GetMeResponse> {
-  const data = await authulaClient.getMe<GetMeResponse>();
+  const data = await authulaClient.core.getMe();
   return data;
 }
 

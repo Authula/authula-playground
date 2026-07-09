@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import { createClient } from "authula";
 import {
+  CorePlugin,
   CSRFPlugin,
   EmailPasswordPlugin,
   OAuth2Plugin,
@@ -13,6 +14,7 @@ import { ENV_CONFIG } from "@/constants/env-config";
 export const authulaClientServer = createClient({
   url: ENV_CONFIG.authula.url,
   plugins: [
+    new CorePlugin(),
     new EmailPasswordPlugin(),
     new OAuth2Plugin(),
     new CSRFPlugin({

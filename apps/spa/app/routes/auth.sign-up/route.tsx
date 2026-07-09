@@ -52,16 +52,19 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const response =
-        await authulaClient.emailPassword.signUp<JWTTokensResponse>({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          callbackUrl: "http://localhost:3000/dashboard",
-        });
+      const response = await authulaClient.emailPassword.signUp({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        callbackUrl: "http://localhost:3000/dashboard",
+      });
       localStorage.setItem("email", data.email);
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
+      const jwtTokensResponse = response as unknown as JWTTokensResponse;
+      localStorage.setItem("accessToken", jwtTokensResponse.accessToken);
+      if (jwtTokensResponse.refreshToken) {
+        localStorage.setItem("refreshToken", jwtTokensResponse.refreshToken);
+      }
+
       toast({
         title: "Success",
         description: "Signed up successfully.",

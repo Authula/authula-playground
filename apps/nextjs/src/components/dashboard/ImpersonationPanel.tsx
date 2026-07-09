@@ -42,7 +42,7 @@ export default function ImpersonationPanel() {
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      return authulaClientBrowser.admin.getAllUsers();
+      return authulaClientBrowser.admin.listUsers();
     },
   });
 
