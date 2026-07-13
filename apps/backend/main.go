@@ -19,13 +19,11 @@ import (
 	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
 	adminplugin "github.com/Authula/authula/plugins/admin"
 	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
-	"github.com/Authula/authula/plugins/bearer"
 	csrfplugin "github.com/Authula/authula/plugins/csrf"
 	emailplugin "github.com/Authula/authula/plugins/email"
 	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
 	emailpasswordplugintypes "github.com/Authula/authula/plugins/email-password/types"
 	emailplugintypes "github.com/Authula/authula/plugins/email/types"
-	"github.com/Authula/authula/plugins/jwt"
 	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
 	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
@@ -109,16 +107,16 @@ func main() {
 			{
 				Paths: []string{"GET:/me"},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuth.String(),
-					bearer.HookIDBearerAuth.String(),
-					jwt.HookIDJWTRespondJSON.String(),
+					sessionplugin.HookIDSessionAuth.String(),
+					// bearer.HookIDBearerAuth.String(),
+					// jwt.HookIDJWTRespondJSON.String(),
 				},
 			},
 			{
 				Paths: []string{"POST:/sign-out"},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuth.String(),
-					bearer.HookIDBearerAuth.String(),
+					sessionplugin.HookIDSessionAuth.String(),
+					// bearer.HookIDBearerAuth.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -129,17 +127,17 @@ func main() {
 					"POST:/email-password/sign-up",
 				},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuthOptional.String(),
-					bearer.HookIDBearerAuthOptional.String(),
-					jwt.HookIDJWTRespondJSON.String(),
+					sessionplugin.HookIDSessionAuthOptional.String(),
+					// bearer.HookIDBearerAuthOptional.String(),
+					// jwt.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
 			{
 				Paths: []string{"GET:/email-password/verify-email"},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuthOptional.String(),
-					bearer.HookIDBearerAuthOptional.String(),
+					sessionplugin.HookIDSessionAuthOptional.String(),
+					// bearer.HookIDBearerAuthOptional.String(),
 				},
 			},
 			{
@@ -148,8 +146,8 @@ func main() {
 					"POST:/email-password/change-password",
 				},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuthOptional.String(),
-					bearer.HookIDBearerAuthOptional.String(),
+					sessionplugin.HookIDSessionAuthOptional.String(),
+					// bearer.HookIDBearerAuthOptional.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -159,18 +157,22 @@ func main() {
 					"POST:/email-password/request-email-change",
 				},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuth.String(),
-					bearer.HookIDBearerAuth.String(),
+					sessionplugin.HookIDSessionAuth.String(),
+					// bearer.HookIDBearerAuth.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
 			// Magic Link Routes
 			{
-				Paths: []string{"POST:/magic-link/exchange"},
+				Paths: []string{
+					"POST:/magic-link/sign-in",
+					"POST:/magic-link/verify",
+					"POST:/magic-link/exchange",
+				},
 				Plugins: []string{
-					// sessionplugin.HookIDSessionAuth.String(),
-					bearer.HookIDBearerAuth.String(),
-					jwt.HookIDJWTRespondJSON.String(),
+					sessionplugin.HookIDSessionAuthOptional.String(),
+					// bearer.HookIDBearerAuthOptional.String(),
+					// jwt.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -251,13 +253,13 @@ func main() {
 				},
 			}),
 			sessionplugin.New(sessionplugin.SessionPluginConfig{
-				Enabled: false,
+				Enabled: true,
 			}),
 			jwtplugin.New(jwtplugintypes.JWTPluginConfig{
-				Enabled: true,
+				Enabled: false,
 			}),
 			bearerplugin.New(bearerplugin.BearerPluginConfig{
-				Enabled: true,
+				Enabled: false,
 			}),
 			magiclinkplugin.New(magiclinkplugintypes.MagicLinkPluginConfig{
 				Enabled:       true,

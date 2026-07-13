@@ -6,4 +6,4 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - authula@0.6.3
+  - authula@0.7.0

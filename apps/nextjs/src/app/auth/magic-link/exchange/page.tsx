@@ -14,11 +14,15 @@ export default function MagicLinkExchangePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
   const exchangedRef = useRef(false);
+
+  const exchangeMagicLinkMutation =
+    authulaClientBrowser.magicLink.useExchangeMagicLink();
 
   useEffect(() => {
     if (!token || exchangedRef.current) {
@@ -29,9 +33,12 @@ export default function MagicLinkExchangePage() {
 
     const exchangeToken = async () => {
       try {
-        await authulaClientBrowser.magicLink.exchangeMagicLink({
-          token: token,
+        const response = await exchangeMagicLinkMutation.mutateAsync({
+          data: {
+            token,
+          },
         });
+        console.log(response);
         setStatus("success");
       } catch (error: any) {
         console.error("Error exchanging magic link token:", error);

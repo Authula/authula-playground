@@ -5,7 +5,6 @@ import {
   OAuth2Plugin,
   CSRFPlugin,
   MagicLinkPlugin,
-  AdminPlugin,
 } from "authula/plugins";
 
 import { ENV_CONFIG } from "@/constants/env-config";
@@ -21,6 +20,5 @@ export const authulaClientBrowser = createClient({
       headerName: "x-authula-csrf-token",
     }),
     new MagicLinkPlugin(),
-    new AdminPlugin(),
   ],
 });
