@@ -6,4 +6,7 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - authula@0.7.0
+  - authula@0.7.1
+  - postcss@8.5.19
+  - '@tanstack/form-core@1.33.2'
+  - '@tanstack/react-form@1.33.2'

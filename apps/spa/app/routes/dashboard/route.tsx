@@ -21,7 +21,7 @@ function formatDate(date?: string) {
 export default function DashboardPage() {
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error, refetch } = useMe();
+  const { data, error, isLoading, isError, refetch } = useMe();
 
   if (isLoading) {
     return (

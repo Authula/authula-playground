@@ -15,12 +15,12 @@ export const authulaClient = createClient({
   url: ENV_CONFIG.authula.url,
   plugins: [
     new CorePlugin(),
-    new EmailPasswordPlugin(),
-    new OAuth2Plugin(),
     new CSRFPlugin({
       cookieName: "authula_csrf_token",
       headerName: "x-authula-csrf-token",
     }),
+    new EmailPasswordPlugin(),
+    new OAuth2Plugin(),
     new JWTPlugin(),
     new BearerPlugin(),
     new MagicLinkPlugin(),

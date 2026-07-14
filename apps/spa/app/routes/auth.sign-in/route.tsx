@@ -25,7 +25,7 @@ type SignInFormData = z.infer<typeof signInSchema>;
 export default function SignInPage({}: Route.ComponentProps) {
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const form = useForm<SignInFormData>({
     mode: "onChange",
@@ -39,8 +39,6 @@ export default function SignInPage({}: Route.ComponentProps) {
   const onSubmit = async (data: SignInFormData) => {
     try {
       const response = await authulaClient.emailPassword.signIn(data);
-      console.log(response);
-
       const jwtTokensResponse = response as unknown as JWTTokensResponse;
       localStorage.setItem("accessToken", jwtTokensResponse.accessToken);
       if (jwtTokensResponse.refreshToken) {
