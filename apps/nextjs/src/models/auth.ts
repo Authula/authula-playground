@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const oAuth2ProviderTypeSchema = z.enum(["discord", "github", "google"]);
 export type OAuth2ProviderType = z.infer<typeof oAuth2ProviderTypeSchema>;

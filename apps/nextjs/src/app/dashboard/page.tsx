@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { GetMeResponse } from "authula";
+import Link from "next/link";
 
 import SignOutButton from "@/components/SignOutButton";
 import {
@@ -50,9 +49,7 @@ export default async function DashboardPage() {
           </div>
           <div>
             <Label className="text-sm font-medium">Email Verified</Label>
-            <p className="text-sm text-muted-foreground">
-              {user.emailVerified ? "Yes" : "No"}
-            </p>
+            <p className="text-sm text-muted-foreground">{user.emailVerified ? "Yes" : "No"}</p>
           </div>
           <div>
             <Label className="text-sm font-medium">Created At</Label>

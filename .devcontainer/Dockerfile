@@ -5,8 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 USER root
 WORKDIR /root
 ENV HOME="/root"
-# TODO: Remove after GitHub issue #113 is done. Also remove build-essential from the apt-get install command below too.
-ENV CGO_ENABLED=1
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https ca-certificates gnupg lsb-release iputils-ping net-tools \
@@ -38,7 +36,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs
 
-RUN npm i -g pnpm@12.3.4
+RUN npm i -g pnpm@12.6.0
 # --------------------------------------
 
 # --------------------------------------

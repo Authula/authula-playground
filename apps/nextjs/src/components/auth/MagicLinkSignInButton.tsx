@@ -6,11 +6,11 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { ENV_CONFIG } from "@/constants/env-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { ENV_CONFIG } from "@/constants/env-config";
 import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 const formSchema = z.object({
@@ -30,19 +30,16 @@ export default function MagicLinkSignInButton() {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response =
-          await authulaClientBrowser.magicLink.signInWithMagicLink({
-            email: value.email,
-            callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
-          });
+        const response = await authulaClientBrowser.magicLink.signInWithMagicLink({
+          email: value.email,
+          callbackUrl: `${ENV_CONFIG.baseUrl}/auth/magic-link/exchange`,
+        });
         setSubmittedEmail(value.email);
         setIsSubmitted(true);
         toast.success(response.message);
       } catch (error: any) {
         console.error("Error sending magic link:", error);
-        toast.error(
-          error.message || "Failed to send magic link. Please try again.",
-        );
+        toast.error(error.message || "Failed to send magic link. Please try again.");
       }
     },
   });
@@ -97,9 +94,7 @@ export default function MagicLinkSignInButton() {
                 />
                 {field.state.meta.isTouched && !field.state.meta.isValid ? (
                   <em className="text-red-500 text-sm">
-                    {field.state.meta.errors
-                      .map((error) => error?.message)
-                      .join(", ")}
+                    {field.state.meta.errors.map((error) => error?.message).join(", ")}
                   </em>
                 ) : null}
               </div>
@@ -109,11 +104,7 @@ export default function MagicLinkSignInButton() {
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={!canSubmit || isSubmitting}
-              >
+              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Spinner className="size-4" />

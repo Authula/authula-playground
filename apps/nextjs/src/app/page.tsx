@@ -2,13 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function HomePage() {
   return (
@@ -23,9 +17,7 @@ export default function HomePage() {
             height={37}
             priority
           />
-          <CardTitle className="mt-4 text-2xl font-semibold">
-            Authula Playground
-          </CardTitle>
+          <CardTitle className="mt-4 text-2xl font-semibold">Authula Playground</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Link href="/auth/sign-in" passHref>

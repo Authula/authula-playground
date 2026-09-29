@@ -1,4 +1,4 @@
-import EmailChangeForm from '@/components/dashboard/EmailChangeForm';
+import EmailChangeForm from "@/components/dashboard/EmailChangeForm";
 
 export default function EmailChangePage() {
   return (

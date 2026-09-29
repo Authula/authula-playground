@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { authulaClientBrowser } from "@/lib/authula-client-browser";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignOutButton() {
   const queryClient = useQueryClient();

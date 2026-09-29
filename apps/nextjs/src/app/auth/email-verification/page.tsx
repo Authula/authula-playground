@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
-import { useAction } from "next-safe-action/hooks";
 import { Mail } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { sendEmailVerificationAction } from "@/app/actions";
@@ -53,14 +53,9 @@ export default function EmailVerificationPage() {
         </CardHeader>
         <CardContent className="text-center">
           <p className="text-sm text-muted-foreground mb-4">
-            We&#39;ve sent a verification link to your email. Click the link to
-            verify your account.
+            We&#39;ve sent a verification link to your email. Click the link to verify your account.
           </p>
-          <Button
-            variant="outline"
-            disabled={isPending}
-            onClick={handleSendEmailVerification}
-          >
+          <Button variant="outline" disabled={isPending} onClick={handleSendEmailVerification}>
             {isPending ? "Resending..." : "Resend Verification Email"}
           </Button>
         </CardContent>

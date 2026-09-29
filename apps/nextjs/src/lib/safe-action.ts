@@ -1,12 +1,9 @@
-import {
-  createSafeActionClient,
-  DEFAULT_SERVER_ERROR_MESSAGE,
-} from "next-safe-action";
-import * as z from "zod";
 import { GetMeResponse } from "authula";
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from "next-safe-action";
+import * as z from "zod";
 
-import { ActionError } from "@/models";
 import { authulaClientServer } from "./authula-client-server";
+import { ActionError } from "@/models";
 
 export const actionClient = createSafeActionClient({
   defineMetadataSchema() {

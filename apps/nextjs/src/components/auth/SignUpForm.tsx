@@ -1,25 +1,18 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import SocialProviderButtons from "./SocialProviderButtons";
 import { signUpAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SocialProviderButtons from "./SocialProviderButtons";
 
 const formSchema = z
   .object({
@@ -62,9 +55,7 @@ export default function SignUpForm() {
           );
         }
         toast.success("Signed up successfully!");
-        router.push(
-          `/auth/email-verification?email=${encodeURIComponent(value.email)}`,
-        );
+        router.push(`/auth/email-verification?email=${encodeURIComponent(value.email)}`);
       } catch (error: any) {
         console.error("Error during registration:", error);
         toast.error(error.message);
@@ -87,9 +78,7 @@ export default function SignUpForm() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
@@ -115,9 +104,7 @@ export default function SignUpForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -138,9 +125,7 @@ export default function SignUpForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -161,9 +146,7 @@ export default function SignUpForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -184,9 +167,7 @@ export default function SignUpForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -196,11 +177,7 @@ export default function SignUpForm() {
               <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={!canSubmit}
-                  >
+                  <Button type="submit" className="w-full" disabled={!canSubmit}>
                     {isSubmitting ? "Registering..." : "Sign Up"}
                   </Button>
                 )}

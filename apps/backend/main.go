@@ -201,10 +201,8 @@ func main() {
 				Enabled: true,
 			}),
 			emailplugin.New(emailplugintypes.EmailPluginConfig{
-				Enabled:     true,
-				Provider:    emailplugintypes.ProviderSMTP,
-				FromAddress: "noreply@example.com",
-				TLSMode:     emailplugintypes.SMTPTLSModeStartTLS,
+				Enabled:  true,
+				Provider: emailplugintypes.ProviderSMTP,
 			}),
 			emailpasswordplugin.New(emailpasswordplugintypes.EmailPasswordPluginConfig{
 				Enabled:                     true,

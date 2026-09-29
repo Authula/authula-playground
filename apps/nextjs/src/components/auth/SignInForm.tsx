@@ -1,25 +1,18 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
-
-import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import MagicLinkSignInButton from "./MagicLinkSignInButton";
+import SocialProviderButtons from "./SocialProviderButtons";
 import { signInAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SocialProviderButtons from "./SocialProviderButtons";
-import MagicLinkSignInButton from "./MagicLinkSignInButton";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -62,9 +55,7 @@ export default function SignInForm() {
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-        <CardDescription>
-          Enter your email and password to access your account.
-        </CardDescription>
+        <CardDescription>Enter your email and password to access your account.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
@@ -75,9 +66,7 @@ export default function SignInForm() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
@@ -88,9 +77,7 @@ export default function SignInForm() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
@@ -116,9 +103,7 @@ export default function SignInForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -139,9 +124,7 @@ export default function SignInForm() {
                     />
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
                       <em className="text-red-500 text-sm">
-                        {field.state.meta.errors
-                          .map((error) => error?.message)
-                          .join(", ")}
+                        {field.state.meta.errors.map((error) => error?.message).join(", ")}
                       </em>
                     ) : null}
                   </div>
@@ -157,11 +140,7 @@ export default function SignInForm() {
               <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                 children={([canSubmit, isSubmitting]) => (
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={!canSubmit}
-                  >
+                  <Button type="submit" className="w-full" disabled={!canSubmit}>
                     {isSubmitting ? "Signing in..." : "Sign In"}
                   </Button>
                 )}

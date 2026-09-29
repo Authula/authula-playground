@@ -1,15 +1,14 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
-import { flattenValidationErrors } from "next-safe-action";
-import { z } from "zod";
 import { GetMeResponse } from "authula";
+import { flattenValidationErrors } from "next-safe-action";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
 import { ENV_CONFIG } from "@/constants/env-config";
+import { authulaClientServer } from "@/lib/authula-client-server";
 import { actionClient } from "@/lib/safe-action";
 import { ActionError } from "@/models";
-import { authulaClientServer } from "@/lib/authula-client-server";
 
 // --------------------------
 
@@ -25,8 +24,7 @@ const signUpFormSchema = z.object({
 export const signUpAction = actionClient
   .metadata({ actionName: "signUpAction" })
   .inputSchema(signUpFormSchema, {
-    handleValidationErrorsShape: async (ve, utils) =>
-      flattenValidationErrors(ve).fieldErrors,
+    handleValidationErrorsShape: async (ve, utils) => flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
     try {
@@ -44,9 +42,7 @@ export const signUpAction = actionClient
         throw error;
       }
       throw new ActionError(
-        error instanceof Error
-          ? error.message
-          : "Failed to sign up user. Please try again later.",
+        error instanceof Error ? error.message : "Failed to sign up user. Please try again later.",
       );
     }
   });
@@ -61,8 +57,7 @@ const signInFormSchema = z.object({
 export const signInAction = actionClient
   .metadata({ actionName: "signInAction" })
   .inputSchema(signInFormSchema, {
-    handleValidationErrorsShape: async (ve, utils) =>
-      flattenValidationErrors(ve).fieldErrors,
+    handleValidationErrorsShape: async (ve, utils) => flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
     let data: GetMeResponse | null = null;
@@ -78,9 +73,7 @@ export const signInAction = actionClient
         throw error;
       }
       throw new ActionError(
-        error instanceof Error
-          ? error.message
-          : "Failed to sign in user. Please try again later.",
+        error instanceof Error ? error.message : "Failed to sign in user. Please try again later.",
       );
     }
 
@@ -95,12 +88,11 @@ export const signInAction = actionClient
 
 export const sendEmailVerificationAction = actionClient
   .metadata({ actionName: "sendEmailVerificationAction" })
-  .action(async ({}) => {
+  .action(async () => {
     try {
-      const data: any =
-        await authulaClientServer.emailPassword.sendEmailVerification({
-          callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
-        });
+      const data: any = await authulaClientServer.emailPassword.sendEmailVerification({
+        callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
+      });
 
       return data;
     } catch (error) {
@@ -125,16 +117,14 @@ const resetPasswordFormSchema = z.object({
 export const resetPasswordAction = actionClient
   .metadata({ actionName: "resetPasswordAction" })
   .inputSchema(resetPasswordFormSchema, {
-    handleValidationErrorsShape: async (ve, utils) =>
-      flattenValidationErrors(ve).fieldErrors,
+    handleValidationErrorsShape: async (ve, utils) => flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
     try {
-      const data: any =
-        await authulaClientServer.emailPassword.requestPasswordReset({
-          email: parsedInput.email,
-          callbackUrl: `${ENV_CONFIG.baseUrl}/auth/change-password`,
-        });
+      const data: any = await authulaClientServer.emailPassword.requestPasswordReset({
+        email: parsedInput.email,
+        callbackUrl: `${ENV_CONFIG.baseUrl}/auth/change-password`,
+      });
 
       return data;
     } catch (error) {
@@ -163,8 +153,7 @@ const changePasswordFormSchema = z.object({
 export const changePasswordAction = actionClient
   .metadata({ actionName: "changePasswordAction" })
   .inputSchema(changePasswordFormSchema, {
-    handleValidationErrorsShape: async (ve, utils) =>
-      flattenValidationErrors(ve).fieldErrors,
+    handleValidationErrorsShape: async (ve, utils) => flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
     try {
@@ -202,16 +191,14 @@ const emailChangeFormSchema = z
 export const emailChangeAction = actionClient
   .metadata({ actionName: "emailChangeAction" })
   .inputSchema(emailChangeFormSchema, {
-    handleValidationErrorsShape: async (ve, utils) =>
-      flattenValidationErrors(ve).fieldErrors,
+    handleValidationErrorsShape: async (ve, utils) => flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
     try {
-      const data: any =
-        await authulaClientServer.emailPassword.requestEmailChange({
-          newEmail: parsedInput.newEmail,
-          callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
-        });
+      const data: any = await authulaClientServer.emailPassword.requestEmailChange({
+        newEmail: parsedInput.newEmail,
+        callbackUrl: `${ENV_CONFIG.baseUrl}/dashboard`,
+      });
 
       return data;
     } catch (error) {
@@ -220,9 +207,7 @@ export const emailChangeAction = actionClient
         throw error;
       }
       throw new ActionError(
-        error instanceof Error
-          ? error.message
-          : "Failed to change email. Please try again later.",
+        error instanceof Error ? error.message : "Failed to change email. Please try again later.",
       );
     }
   });

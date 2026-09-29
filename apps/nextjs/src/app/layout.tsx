@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
 
 import { Raleway } from "next/font/google";
@@ -13,8 +14,7 @@ const primaryFont = Raleway({
 
 export const metadata: Metadata = {
   title: "Authula Playground",
-  description:
-    "A playground built for Authula to test out the various authentication features.",
+  description: "A playground built for Authula to test out the various authentication features.",
 };
 
 export default function RootLayout({
@@ -24,10 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(`${primaryFont.variable} antialiased`)}
-        suppressHydrationWarning
-      >
+      <body className={cn(`${primaryFont.variable} antialiased`)} suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>

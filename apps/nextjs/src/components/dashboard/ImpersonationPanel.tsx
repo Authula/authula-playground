@@ -2,11 +2,14 @@
 
 import { useState, useMemo } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+import { Search, UserCog, LogOut, ShieldAlert, CircleDot } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Table,
   TableBody,
@@ -15,8 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, UserCog, LogOut, ShieldAlert, CircleDot } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 const ROLE_STYLES: Record<string, string> = {
@@ -55,10 +56,9 @@ export default function ImpersonationPanel() {
     const q = query.trim().toLowerCase();
     if (!q) return data?.users ?? [];
     return data?.users.filter(
-      (u) =>
-        u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q),
+      (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q),
     );
-  }, [query]);
+  }, [query, data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -75,7 +75,7 @@ export default function ImpersonationPanel() {
         <Alert className="border-amber-300 bg-amber-50 text-amber-900">
           <ShieldAlert className="h-4 w-4 text-amber-600" />
           <AlertTitle className="flex items-center gap-2">
-            You're viewing as {impersonatedUser.name}
+            You&apos;re viewing as {impersonatedUser.name}
           </AlertTitle>
           <AlertDescription className="flex items-center justify-between gap-4">
             <span className="text-amber-800">
@@ -96,12 +96,10 @@ export default function ImpersonationPanel() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900">
-            Users
-          </h1>
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900">Users</h1>
           <p className="text-sm text-slate-500">
-            {data?.users.length} accounts &middot; impersonate a user to see the
-            product from their side.
+            {data?.users.length} accounts &middot; impersonate a user to see the product from their
+            side.
           </p>
         </div>
         <div className="relative w-64">
@@ -127,14 +125,10 @@ export default function ImpersonationPanel() {
           <TableBody>
             {filteredUsers?.map((user) => {
               const isImpersonated = user.id === impersonatingId;
-              const disableImpersonate =
-                Boolean(impersonatingId) && !isImpersonated;
+              const disableImpersonate = Boolean(impersonatingId) && !isImpersonated;
 
               return (
-                <TableRow
-                  key={user.id}
-                  className={isImpersonated ? "bg-amber-50/60" : undefined}
-                >
+                <TableRow key={user.id} className={isImpersonated ? "bg-amber-50/60" : undefined}>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
@@ -143,12 +137,8 @@ export default function ImpersonationPanel() {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="text-sm font-medium text-slate-900">
-                          {user.name}
-                        </div>
-                        <div className="text-xs text-slate-500">
-                          {user.email}
-                        </div>
+                        <div className="text-sm font-medium text-slate-900">{user.name}</div>
+                        <div className="text-xs text-slate-500">{user.email}</div>
                       </div>
                     </div>
                   </TableCell>
@@ -190,11 +180,8 @@ export default function ImpersonationPanel() {
             })}
             {filteredUsers?.length === 0 && (
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="py-8 text-center text-sm text-slate-500"
-                >
-                  No users match "{query}".
+                <TableCell colSpan={5} className="py-8 text-center text-sm text-slate-500">
+                  No users match &ldquo;{query}&rdquo;.
                 </TableCell>
               </TableRow>
             )}

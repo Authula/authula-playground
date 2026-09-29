@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { createClient } from "authula";
 import {
   CorePlugin,
@@ -8,6 +6,7 @@ import {
   OAuth2Plugin,
   MagicLinkPlugin,
 } from "authula/plugins";
+import { cookies } from "next/headers";
 
 import { ENV_CONFIG } from "@/constants/env-config";
 

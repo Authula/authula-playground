@@ -1,5 +1,6 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -7,16 +8,9 @@ import { z } from "zod";
 
 import { resetPasswordAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@tanstack/react-form";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -57,9 +51,7 @@ export default function RequestPasswordResetForm() {
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
-        <CardDescription>
-          Enter your email to receive a password reset link.
-        </CardDescription>
+        <CardDescription>Enter your email to receive a password reset link.</CardDescription>
       </CardHeader>
       <CardContent>
         <form
@@ -84,9 +76,7 @@ export default function RequestPasswordResetForm() {
                 />
                 {field.state.meta.isTouched && !field.state.meta.isValid ? (
                   <em className="text-red-500 text-sm">
-                    {field.state.meta.errors
-                      .map((error) => error?.message)
-                      .join(", ")}
+                    {field.state.meta.errors.map((error) => error?.message).join(", ")}
                   </em>
                 ) : null}
               </div>

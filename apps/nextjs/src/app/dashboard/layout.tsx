@@ -2,8 +2,8 @@
 
 import { redirect } from "next/navigation";
 
-import { authulaClientBrowser } from "@/lib/authula-client-browser";
 import { Spinner } from "@/components/ui/spinner";
+import { authulaClientBrowser } from "@/lib/authula-client-browser";
 
 export default function DashboardLayout({
   children,
