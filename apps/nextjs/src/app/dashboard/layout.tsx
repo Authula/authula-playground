@@ -25,12 +25,10 @@ export default function DashboardLayout({
   }
 
   if (!data) {
-    console.log("redirecting to sign in page");
     redirect("/auth/sign-in");
   }
 
   if (!data.user?.emailVerified) {
-    console.log("redirecting to email verification page");
     redirect(`/auth/email-verification?email=${data.user.email}`);
   }
 

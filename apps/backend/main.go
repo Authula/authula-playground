@@ -110,16 +110,16 @@ func main() {
 				Paths: []string{"GET:/me"},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuth.String(),
-					// bearer.HookIDBearerAuth.String(),
-					// jwt.HookIDJWTRespondJSON.String(),
+					// bearerplugin.HookIDBearerAuth.String(),
+					// jwtplugin.HookIDJWTRespondJSON.String(),
 				},
 			},
 			{
 				Paths: []string{"POST:/sign-out"},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuth.String(),
-					// bearer.HookIDBearerAuth.String(),
-					csrfplugin.HookIDCSRFProtect.String(),
+					// bearerplugin.HookIDBearerAuth.String(),
+					// csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
 			// Email-Password Routes
@@ -132,8 +132,8 @@ func main() {
 				},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuthOptional.String(),
-					// bearer.HookIDBearerAuthOptional.String(),
-					// jwt.HookIDJWTRespondJSON.String(),
+					// bearerplugin.HookIDBearerAuthOptional.String(),
+					// jwtplugin.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -141,7 +141,7 @@ func main() {
 				Paths: []string{"GET:/email-password/verify-email"},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuthOptional.String(),
-					// bearer.HookIDBearerAuthOptional.String(),
+					// bearerplugin.HookIDBearerAuthOptional.String(),
 				},
 			},
 			{
@@ -151,7 +151,7 @@ func main() {
 				},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuth.String(),
-					// bearer.HookIDBearerAuth.String(),
+					// bearerplugin.HookIDBearerAuth.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},
@@ -164,8 +164,8 @@ func main() {
 				},
 				Plugins: []string{
 					sessionplugin.HookIDSessionAuthOptional.String(),
-					// bearer.HookIDBearerAuthOptional.String(),
-					// jwt.HookIDJWTRespondJSON.String(),
+					// bearerplugin.HookIDBearerAuthOptional.String(),
+					// jwtplugin.HookIDJWTRespondJSON.String(),
 					csrfplugin.HookIDCSRFProtect.String(),
 				},
 			},

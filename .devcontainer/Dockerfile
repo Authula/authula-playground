@@ -36,7 +36,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs
 
-RUN npm i -g pnpm@12.6.0
+RUN npm i -g pnpm@12.15.0
 # --------------------------------------
 
 # --------------------------------------
