@@ -19,25 +19,26 @@ import (
 	accesscontrolplugintypes "github.com/Authula/authula/plugins/access-control/types"
 	adminplugin "github.com/Authula/authula/plugins/admin"
 	adminplugintypes "github.com/Authula/authula/plugins/admin/types"
+	bearerplugin "github.com/Authula/authula/plugins/bearer"
 	csrfplugin "github.com/Authula/authula/plugins/csrf"
 	emailplugin "github.com/Authula/authula/plugins/email"
 	emailpasswordplugin "github.com/Authula/authula/plugins/email-password"
 	emailpasswordplugintypes "github.com/Authula/authula/plugins/email-password/types"
 	emailplugintypes "github.com/Authula/authula/plugins/email/types"
+	jwtplugin "github.com/Authula/authula/plugins/jwt"
+	jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
 	magiclinkplugin "github.com/Authula/authula/plugins/magic-link"
 	magiclinkplugintypes "github.com/Authula/authula/plugins/magic-link/types"
 	oauth2plugin "github.com/Authula/authula/plugins/oauth2"
 	oauth2plugintypes "github.com/Authula/authula/plugins/oauth2/types"
 	organizationsplugin "github.com/Authula/authula/plugins/organizations"
 	organizationsplugintypes "github.com/Authula/authula/plugins/organizations/types"
+	otelplugin "github.com/Authula/authula/plugins/otel"
+	otelplugintypes "github.com/Authula/authula/plugins/otel/types"
 	ratelimitplugin "github.com/Authula/authula/plugins/rate-limit"
 	ratelimitplugintypes "github.com/Authula/authula/plugins/rate-limit/types"
 	secondarystorageplugin "github.com/Authula/authula/plugins/secondary-storage"
 	sessionplugin "github.com/Authula/authula/plugins/session"
-
-	bearerplugin "github.com/Authula/authula/plugins/bearer"
-	jwtplugin "github.com/Authula/authula/plugins/jwt"
-	jwtplugintypes "github.com/Authula/authula/plugins/jwt/types"
 
 	loggerplugin "github.com/Authula/authula-playground/plugins/logger"
 	loggerplugintypes "github.com/Authula/authula-playground/plugins/logger/types"
@@ -185,6 +186,23 @@ func main() {
 		Config: config,
 		Plugins: []authulamodels.Plugin{
 			// Built-in plugins
+			otelplugin.New(otelplugintypes.OTelPluginConfig{
+				Enabled:        true,
+				ServiceName:    "authula-api",
+				Exporter:       otelplugintypes.ExporterOTLP,
+				Protocol:       otelplugintypes.ProtocolHTTP,
+				Endpoint:       "localhost:4318",
+				Insecure:       true,
+				TracesEnabled:  new(true),
+				MetricsEnabled: new(true),
+				LogsEnabled:    true,
+				RuntimeMetrics: new(true),
+				Headers: map[string]string{
+					"Authorization": fmt.Sprintf("Bearer %s", os.Getenv("CLICKSTACK_INGESTION_API_KEY")),
+				},
+				SampleRatio: new(1.0),
+				TrustProxy:  false,
+			}),
 			// Secondary storage plugin MUST be registered before rate-limit plugin
 			// This allows rate-limit to optionally use Redis/database for distributed rate limiting
 			secondarystorageplugin.New(secondarystorageplugin.SecondaryStoragePluginConfig{
