@@ -1,4 +1,4 @@
-import { GetMeResponse } from "authula";
+import { GetMeResponse } from "authula/models";
 import Link from "next/link";
 
 import SignOutButton from "@/components/SignOutButton";
@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import UserProfileAvatar from "@/components/user/UserProfileAvatar";
 import { authulaClientServer } from "@/lib/authula-client-server";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +36,7 @@ export default async function DashboardPage() {
           <CardDescription>Your account details</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {user.image && <UserProfileAvatar imageUrl={user.image ?? ""} size="lg" />}
           <div>
             <Label className="text-sm font-medium">ID</Label>
             <p className="text-sm text-muted-foreground">{user.id}</p>
