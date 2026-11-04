@@ -239,19 +239,16 @@ func main() {
 				Enabled: true,
 				Providers: map[string]oauth2plugintypes.ProviderConfig{
 					"discord": {
-						Enabled:      true,
 						ClientID:     os.Getenv(authulaenv.EnvDiscordClientID),
 						ClientSecret: os.Getenv(authulaenv.EnvDiscordClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/discord", config.BaseURL, config.BasePath),
 					},
 					"github": {
-						Enabled:      true,
 						ClientID:     os.Getenv(authulaenv.EnvGithubClientID),
 						ClientSecret: os.Getenv(authulaenv.EnvGithubClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/github", config.BaseURL, config.BasePath),
 					},
 					"google": {
-						Enabled:      true,
 						ClientID:     os.Getenv(authulaenv.EnvGoogleClientID),
 						ClientSecret: os.Getenv(authulaenv.EnvGoogleClientSecret),
 						RedirectURL:  fmt.Sprintf("%s%s/oauth2/callback/google", config.BaseURL, config.BasePath),

@@ -3,7 +3,7 @@ module github.com/Authula/authula-playground
 go 1.27.3
 
 require (
-	github.com/Authula/authula v1.49.0
+	github.com/Authula/authula v1.50.0
 	github.com/joho/godotenv v1.5.1
 	github.com/uptrace/bun v1.2.18
 )
